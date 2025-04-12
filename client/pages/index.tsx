@@ -14,19 +14,9 @@ function index() {
   }, []);
   
   return (
-    <AppBar position='static'>
-      <Toolbar>
-        <Button>
-          Home
-        </Button>
-        <Button>
-          Request Albums
-        </Button>
-        <Button>
-          Amorogs
-        </Button>
-      </Toolbar>
-    </AppBar>
+    <div>
+      HI
+    </div>
   )
 }
 
