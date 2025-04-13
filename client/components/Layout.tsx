@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import { Toolbar } from '@mui/material';
@@ -16,16 +16,16 @@ const darkTheme = createTheme({
 function Layout({children}: {children: React.ReactNode}) {
   return <ThemeProvider theme={darkTheme}>
     <CssBaseline/>
-    <AppBar position='static'>
+    <AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
       <Toolbar>
-      <Button>
+      <Button href='./'>
         Home
       </Button>
-      <Button>
+      <Button href='./albums'>
         Request Albums
       </Button>
-      <Button>
-        Amorogs
+      <Button href='./db'>
+        Listening Data
       </Button>
       </Toolbar>
     </AppBar>
