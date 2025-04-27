@@ -7,7 +7,6 @@ bp = Blueprint('tracks', __name__, url_prefix='/tracks')
 @bp.before_app_request
 def load_db():
     MYSQL_PWD = os.getenv('MYSQL_PWD')
-    print(MYSQL_PWD)
 
     g.db = mysql.connector.connect(
         host='localhost',
