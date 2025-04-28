@@ -1,0 +1,19 @@
+.swiper {
+    width: 75vw;
+    height: 25vw;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.swiper-slide {
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 25vw;
+    height: 25vw;
+}
