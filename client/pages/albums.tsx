@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Stack } from '@mui/material';
+import { Typography, Box, Stack, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
@@ -37,12 +37,27 @@ function index() {
           <>
             {numbers.map((num) => 
               <SwiperSlide>
-                <Image 
-                  src={`/${num}.jpg`} 
-                  width={640}
-                  height={640}
-                  alt='HI'
-                />
+                <ImageListItem
+                  sx={{
+                    width: '25vw',
+                    height: '25vw',
+                  }}
+                >
+                  <Image 
+                    src={`/${num}.jpg`} 
+                    height={640}
+                    width={640}
+                    alt='HI'
+                  />
+                  <ImageListItemBar
+                    title={num}
+                    subtitle={num*2}
+                    sx={{
+                      background: 'linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.65) 70%, rgba(0,0,0,.5) 100%)',
+                    }}
+                  >
+                  </ImageListItemBar>
+                </ImageListItem>
               </SwiperSlide>
             )}
           </>
