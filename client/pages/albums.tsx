@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Box, Stack, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
 
 function index() {
-  var numbers = []
-  for (var i = 1; i < 10; i++) {
-    numbers.push(i);
+  const [_ids, setIds] = useState([]);
+
+  const getQueue = async () => {
+    const response = await fetch('http://localhost:3000/api/albums/queue');
+    const nums = await response.json();
+    setIds(nums)
   }
-  console.log(numbers);
+
+  useEffect( () => {
+    getQueue();
+  }, [])
+
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
       <Stack direction="column" alignItems='center' spacing={3}>
@@ -35,7 +42,7 @@ function index() {
           modules={[EffectCoverflow]}
         >
           <>
-            {numbers.map((num) => 
+            {_ids.map((num) => 
               <SwiperSlide>
                 <ImageListItem
                   sx={{
