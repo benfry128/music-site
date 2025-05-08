@@ -9,7 +9,9 @@ def create_app(test_config=None):
     CORS(app)
 
     from . import tracks
+    from . import albums
     app.register_blueprint(tracks.bp)
+    app.register_blueprint(albums.bp)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
