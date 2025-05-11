@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Typography, Box, Stack } from '@mui/material';
 
-function index() {
+function Index() {
   useEffect(() => {
     // fetch('http://localhost:8080/tracks/200')
     //   .then(
@@ -25,4 +25,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

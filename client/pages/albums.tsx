@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
 
-function index() {
+function Index() {
   const [_ids, setIds] = useState([]);
 
   const getQueue = async () => {
@@ -24,7 +24,7 @@ function index() {
           Albums
         </Typography>
         <Typography maxWidth='50%'>
-          Here you can request albums for me to try. 
+          Here you can request albums for me to try.
         </Typography>
         <Swiper
           effect={'coverflow'}
@@ -43,7 +43,7 @@ function index() {
         >
           <>
             {_ids.map((num) => 
-              <SwiperSlide>
+              <SwiperSlide key={num}>
                 <ImageListItem
                   sx={{
                     width: '25vw',
@@ -74,4 +74,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

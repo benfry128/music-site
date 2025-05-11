@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Typography, Box, Stack } from '@mui/material';
 
 function index() {
@@ -9,7 +9,7 @@ function index() {
           DB
         </Typography>
         <Typography maxWidth='50%'>
-          Here you can check out the stuff that I've listened to since I started recording it all in January 2024.  
+          Here you can check out the stuff that I&apos;ve listened to since I started recording it all in January 2024.  
         </Typography>
       </Stack>
     </Box>
