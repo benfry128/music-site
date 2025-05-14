@@ -1,7 +1,12 @@
 from flask import Flask, jsonify, make_response
 
+import tracks
+import albums
+
 app = Flask(__name__)
 
+# app.register_blueprint(tracks.bp)
+app.register_blueprint(albums.bp)
 
 @app.route("/")
 def hello_from_root():
