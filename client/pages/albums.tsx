@@ -8,7 +8,7 @@ function Index() {
   const [_ids, setIds] = useState([]);
 
   const getQueue = async () => {
-    const response = await fetch('http://localhost:3000/api/albums/queue');
+    const response = await fetch('https://8e1w8do4w2.execute-api.us-east-1.amazonaws.com/dev/albums/queue');
     const nums = await response.json();
     setIds(nums)
   }
