@@ -10,8 +10,13 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  /* config options here */
   reactStrictMode: true,
 };
+
+module.exports = {
+  images: {
+    remotePatterns: [{hostname: 'music-site-images.s3.us-east-1.amazonaws.com'}],
+  },
+}
 
 export default nextConfig;
