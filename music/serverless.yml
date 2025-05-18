@@ -8,6 +8,12 @@ service: music
 custom:
   wsgi:
     app: app.app
+  customDomain:
+    domainName: api.benfrymusic.com
+    basePath: ''
+    stage: dev
+    createRoute53Record: true
+
 
 provider:
   name: aws
@@ -27,3 +33,4 @@ functions:
 plugins:
   - serverless-wsgi
   - serverless-python-requirements
+  - serverless-domain-manager
