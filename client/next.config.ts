@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   images: {
-    remotePatterns: [{hostname: 'music-site-images.s3.us-east-1.amazonaws.com'}],
+    remotePatterns: [{hostname: 'music-site-images.s3.us-east-1.amazonaws.com'}, {hostname: 'i.scdn.co'}],
   },
 }
 
