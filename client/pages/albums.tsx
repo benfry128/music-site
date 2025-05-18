@@ -8,7 +8,7 @@ function Index() {
   const [_ids, setIds] = useState([]);
 
   const getQueue = async () => {
-    const response = await fetch('https://8e1w8do4w2.execute-api.us-east-1.amazonaws.com/dev/albums/queue');
+    const response = await fetch('https://api.benfrymusic.com/albums/queue');
     const nums = await response.json();
     setIds(nums)
   }
@@ -51,14 +51,14 @@ function Index() {
                   }}
                 >
                   <Image 
-                    src={`/${num}.jpg`} 
+                    src={num} 
                     height={640}
                     width={640}
                     alt='HI'
                   />
                   <ImageListItemBar
                     title={num}
-                    subtitle={num*2}
+                    subtitle={num}
                     sx={{
                       background: 'linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.65) 70%, rgba(0,0,0,.5) 100%)',
                     }}
