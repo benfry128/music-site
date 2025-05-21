@@ -24,9 +24,8 @@ def close_db_connections(response):
 
 
 @bp.route('/queue', methods=['GET'])
-def get_by_id():
-    g.cursor.execute('SELECT id FROM albums WHERE queue_position is not null order by queue_position;')
+def get_queue():
+    g.cursor.execute('SELECT image FROM albums WHERE queue_position is not null order by queue_position;')
 
-    values = [value[0] for value in g.cursor.fetchall()]
-    print(values)
+    values = [album[0] for album in g.cursor.fetchall()]
     return values
