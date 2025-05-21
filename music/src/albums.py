@@ -1,6 +1,6 @@
-from flask import Blueprint, g, jsonify
+from flask import Blueprint, g
 import mysql.connector
-from globals import MYSQL_PWD
+from src.globals import MYSQL_PWD
 
 bp = Blueprint('albums', __name__, url_prefix='/albums')
 
@@ -13,7 +13,6 @@ def load_db():
         database='albums'
     )
     g.cursor = g.db.cursor()
-    print("HI")
 
 
 @bp.after_request

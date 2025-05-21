@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, make_response
 
-import tracks
-import albums
+import src.tracks as tracks
+import src.albums as albums
 from flask_cors import CORS
 
 app = Flask(__name__)
