@@ -1,6 +1,6 @@
 .swiper {
     width: 75vw;
-    height: 25vw;
+    height: 30vw;
     padding-top: 50px;
     padding-bottom: 50px;
 }
@@ -12,8 +12,14 @@
     align-items: center;
 }
 
-.swiper-slide img {
+.swiper-image{
     display: block;
     width: 25vw;
     height: 25vw;
+    border-radius: 4px;
+}
+
+.spotify {
+    width: 30px;
+    height: 30px;
 }

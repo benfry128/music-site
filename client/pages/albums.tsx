@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Stack, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
@@ -55,13 +55,24 @@ function Index() {
                     height={640}
                     width={640}
                     alt='HI'
+                    className='swiper-image'
                   />
                   <ImageListItemBar
                     title={num}
                     subtitle={num}
-                    sx={{
-                      background: 'linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.65) 70%, rgba(0,0,0,.5) 100%)',
-                    }}
+                    sx={{ background: 'rgba(0,0,0)' }}
+                    position='below'
+                    actionIcon={
+                      <IconButton>
+                        <Image
+                          src='/spotify_logo.png'
+                          width={939}
+                          height={940}
+                          alt={'Spotify Logo'}
+                          className='spotify'
+                        />
+                      </IconButton>
+                    }
                   >
                   </ImageListItemBar>
                 </ImageListItem>
