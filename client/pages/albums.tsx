@@ -38,7 +38,7 @@ function Index() {
             depth: 750,
             modifier: 1,
             slideShadows: false
-          }}  
+          }}
           modules={[EffectCoverflow]}
         >
           <>
