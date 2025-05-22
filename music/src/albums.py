@@ -1,8 +1,26 @@
 from flask import Blueprint, g
 import mysql.connector
 from src.globals import MYSQL_PWD
+from src.models.albums import Album
 
 bp = Blueprint('albums', __name__, url_prefix='/albums')
+
+def create_album_dao(album: list) -> Album:
+    return Album(
+        id=album[0],
+        title=album[1],
+        artist=album[2],
+        image_url=album[3],
+        date_released=album[4],
+        rating=album[5],
+        date_listened=album[6],
+        favorite_song=album[7],
+        recommended_by=album[8],
+        ranking=album[9],
+        spotify_id=album[10],
+        queue_position=album[11],
+        url=album[12],
+    )
 
 @bp.before_request
 def load_db():
@@ -24,7 +42,7 @@ def close_db_connections(response):
 
 @bp.route('/queue', methods=['GET'])
 def get_queue():
-    g.cursor.execute('SELECT image FROM albums WHERE queue_position is not null order by queue_position;')
+    g.cursor.execute('SELECT * FROM albums WHERE queue_position is not null order by queue_position;')
 
-    values = [album[0] for album in g.cursor.fetchall()]
+    values = [create_album_dao(album) for album in g.cursor.fetchall()]
     return values
