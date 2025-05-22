@@ -3,12 +3,13 @@ import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar } f
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
+import { API_URL } from '@/components/Globals';
 
 function Index() {
   const [_albumQueue, setAlbumQueue] = useState([]);
 
   const getQueue = async () => {
-    const response = await fetch('https://api.benfrymusic.com/albums/queue');
+    const response = await fetch(`${API_URL}/albums/queue`);
     const nums = await response.json();
     setAlbumQueue(nums)
   }
