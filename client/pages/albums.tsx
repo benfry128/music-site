@@ -5,12 +5,12 @@ import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
 
 function Index() {
-  const [_ids, setIds] = useState([]);
+  const [_albumQueue, setAlbumQueue] = useState([]);
 
   const getQueue = async () => {
     const response = await fetch('https://api.benfrymusic.com/albums/queue');
     const nums = await response.json();
-    setIds(nums)
+    setAlbumQueue(nums)
   }
 
   useEffect( () => {
@@ -42,8 +42,8 @@ function Index() {
           modules={[EffectCoverflow]}
         >
           <>
-            {_ids.map((num) => 
-              <SwiperSlide key={num}>
+            {_albumQueue.map((album: { id: number, image_url: string, title: string, artist: string, url: string }) => 
+              <SwiperSlide key={album.id}>
                 <ImageListItem
                   sx={{
                     width: '25vw',
@@ -51,19 +51,21 @@ function Index() {
                   }}
                 >
                   <Image 
-                    src={num} 
+                    src={album.image_url} 
                     height={640}
                     width={640}
                     alt='HI'
                     className='swiper-image'
                   />
                   <ImageListItemBar
-                    title={num}
-                    subtitle={num}
+                    title={album.title}
+                    subtitle={album.artist}
                     sx={{ background: 'rgba(0,0,0)' }}
                     position='below'
                     actionIcon={
-                      <IconButton>
+                      <IconButton
+                        href={album.url}
+                      >
                         <Image
                           src='/spotify_logo.png'
                           width={939}
