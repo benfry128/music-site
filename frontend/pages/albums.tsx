@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar, Link } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
@@ -25,7 +25,7 @@ function Index() {
           Albums
         </Typography>
         <Typography maxWidth='50%'>
-          Here you can request albums for me to try.
+          This page is about my album review Instagram account. You can view the account <Link href='https://instagram.com/benfrymusic' target='_blank'>here</Link>.
         </Typography>
         <Swiper
           effect={'coverflow'}
