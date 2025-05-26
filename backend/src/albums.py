@@ -65,7 +65,7 @@ def patch_album(album_id: int):
     sql_values = [request.form[f] for f in sql_fields]
     
     sql_stmt = 'update albums set ' + ', '.join([f'{f} = %s' for f in sql_fields]) + ' where id = %s;'
-    sql_values.append(album_id)
+    sql_values.append(str(album_id))
 
     g.cursor.execute(sql_stmt, sql_values)
 
