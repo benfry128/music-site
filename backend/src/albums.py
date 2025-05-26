@@ -50,28 +50,24 @@ def get_queue():
 
 @bp.route('/<int:album_id>', methods=['PATCH'])
 def patch_album(album_id: int):
+    g.cursor.execute('select * from albums where id = %s;', [album_id])
+
+    if not g.cursor.fetchall():
+        return jsonify(error = 'Not found'), 404
+
     patchable_fields = ['name', 'artist', 'image', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended', 'queue_position']
 
-    sql_stmt = 'update albums set '
-    sql_fields = []
-    sql_values = []
-    for field in request.form:
-        if field in patchable_fields:
-            sql_fields.append(field) 
-            sql_values.append(request.form[field])
-    
-    if not sql_values:
+    sql_fields = [f for f in request.form if f in patchable_fields]
+
+    if not sql_fields:
         return jsonify(error = 'No patchable fields found'), 400
+
+    sql_values = [request.form[f] for f in sql_fields]
     
-    sql_stmt += ', '.join([f'{field} = %s' for field in sql_fields]) + ' where id = %s;'
+    sql_stmt = 'update albums set ' + ', '.join([f'{f} = %s' for f in sql_fields]) + ' where id = %s;'
     sql_values.append(album_id)
-    print(sql_stmt)
-    print(sql_values)
 
     g.cursor.execute(sql_stmt, sql_values)
-
-    if not g.cursor.rowcount: 
-        return jsonify(error = 'Not found'), 404
 
     g.db.commit()
 
