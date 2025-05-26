@@ -1,10 +1,20 @@
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import { Toolbar } from '@mui/material';
+import React, { useState } from 'react';
+import { SiTwitch, SiSpotify } from '@icons-pack/react-simple-icons';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import Fab from "@mui/material/Fab";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+
 import { orange } from "@mui/material/colors";
+import MenuIcon from "@mui/icons-material/Menu";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import GitHub from '@mui/icons-material/GitHub';
+import YouTube from '@mui/icons-material/YouTube';
 
 const darkTheme = createTheme({
   palette: {
@@ -12,6 +22,29 @@ const darkTheme = createTheme({
     primary: orange
   },
 });
+
+const links = [
+  {
+    href: 'https://instagram.com/benfrymusic',
+    child: <InstagramIcon fontSize='large'/>
+  },
+  {
+    href: 'https://github.com/benfry128',
+    child: <GitHub fontSize='large'/>
+  },
+  {
+    href: 'https://www.youtube.com/@benjammin128',
+    child: <YouTube fontSize='large'/>
+  },
+  {
+    href: 'https://www.twitch.tv/benjammin128',
+    child: <SiTwitch size={32}/>
+  },
+  {
+    href: 'https://open.spotify.com/user/31tnaej2hznzuj25tx2p2lf7p4xy',
+    child: <SiSpotify size={32}/>
+  },
+]
 
 function Layout({children}: {children: React.ReactNode}) {
   return <ThemeProvider theme={darkTheme}>
