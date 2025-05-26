@@ -25,7 +25,7 @@ function Index() {
           Albums
         </Typography>
         <Typography maxWidth='50%'>
-          This page is about my album review Instagram account. You can view the account <Link href='https://instagram.com/benfrymusic' target='_blank'>here</Link>.
+          Upcoming albums on my list
         </Typography>
         <Swiper
           effect={'coverflow'}
