@@ -1,4 +1,4 @@
-from flask import Blueprint, g
+from flask import Blueprint, g, jsonify, request
 import mysql.connector
 from src.globals import MYSQL_PWD
 from src.models.albums import Album
@@ -46,3 +46,33 @@ def get_queue():
 
     values = [create_album_dao(album) for album in g.cursor.fetchall()]
     return values
+
+
+@bp.route('/<int:album_id>', methods=['PATCH'])
+def patch_album(album_id: int):
+    patchable_fields = ['name', 'artist', 'image', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended', 'queue_position']
+
+    sql_stmt = 'update albums set '
+    sql_fields = []
+    sql_values = []
+    for field in request.form:
+        if field in patchable_fields:
+            sql_fields.append(field) 
+            sql_values.append(request.form[field])
+    
+    if not sql_values:
+        return jsonify(error = 'No patchable fields found'), 400
+    
+    sql_stmt += ', '.join([f'{field} = %s' for field in sql_fields]) + ' where id = %s;'
+    sql_values.append(album_id)
+    print(sql_stmt)
+    print(sql_values)
+
+    g.cursor.execute(sql_stmt, sql_values)
+
+    if not g.cursor.rowcount: 
+        return jsonify(error = 'Not found'), 404
+
+    g.db.commit()
+
+    return jsonify(message='success'), 200
