@@ -47,22 +47,54 @@ const links = [
 ]
 
 function Layout({children}: {children: React.ReactNode}) {
+  const [_drawerOpen, setDrawerOpen] = useState(false);
+
   return <ThemeProvider theme={darkTheme}>
     <CssBaseline/>
     <AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
       <Toolbar>
-      <Button href='./'>
-        Home
-      </Button>
-      <Button href='./albums'>
-        Request Albums
-      </Button>
-      <Button href='./db'>
-        Listening Data
-      </Button>
+        <Button href='./'>
+          Home
+        </Button>
+        <Button href='./albums'>
+          Request Albums
+        </Button>
+        <Button href='./db'>
+          Listening Data
+        </Button>
       </Toolbar>
     </AppBar>
     <main>{children}</main>
+    <Fab 
+      size='small' 
+      color='primary' 
+      sx={{
+        position: 'absolute',
+        bottom: 16,
+        right: 16
+      }}
+      onClick={() => {
+        setDrawerOpen(true);
+      }}
+    >
+      <MenuIcon />
+    </Fab>
+    <Drawer
+      open={_drawerOpen}
+      onClose={() => {
+        setDrawerOpen(false);
+      }}
+      anchor='right'
+    >
+      {links.map((link) => 
+        <IconButton
+          href={link.href}
+          target='_blank'
+        >
+          {link.child}
+        </IconButton>
+      )}
+    </Drawer>
   </ThemeProvider>;
 }
     
