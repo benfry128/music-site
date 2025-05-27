@@ -24,79 +24,78 @@ const darkTheme = createTheme({
 });
 
 const links = [
-  {
-    href: 'https://instagram.com/benfrymusic',
-    child: <InstagramIcon fontSize='large'/>
-  },
-  {
-    href: 'https://github.com/benfry128',
-    child: <GitHub fontSize='large'/>
-  },
-  {
-    href: 'https://www.youtube.com/@benjammin128',
-    child: <YouTube fontSize='large'/>
-  },
-  {
-    href: 'https://www.twitch.tv/benjammin128',
-    child: <SiTwitch size={32}/>
-  },
-  {
-    href: 'https://open.spotify.com/user/31tnaej2hznzuj25tx2p2lf7p4xy',
-    child: <SiSpotify size={32}/>
-  },
+	{
+		href: 'https://instagram.com/benfrymusic',
+		child: <InstagramIcon fontSize='large'/>
+	},
+	{
+		href: 'https://github.com/benfry128',
+		child: <GitHub fontSize='large'/>
+	},
+	{
+		href: 'https://www.youtube.com/@benjammin128',
+		child: <YouTube fontSize='large'/>
+	},
+	{
+		href: 'https://www.twitch.tv/benjammin128',
+		child: <SiTwitch size={32}/>
+	},
+	{
+		href: 'https://open.spotify.com/user/31tnaej2hznzuj25tx2p2lf7p4xy',
+		child: <SiSpotify size={32}/>
+	},
 ]
 
 function Layout({children}: {children: React.ReactNode}) {
   const [_drawerOpen, setDrawerOpen] = useState(false);
 
   return <ThemeProvider theme={darkTheme}>
-    <CssBaseline/>
-    <AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-      <Toolbar>
-        <Button href='./'>
-          Home
-        </Button>
-        <Button href='./albums'>
-          Request Albums
-        </Button>
-        <Button href='./db'>
-          Listening Data
-        </Button>
-      </Toolbar>
-    </AppBar>
-    <main>{children}</main>
-    <Fab 
-      size='small' 
-      color='primary' 
-      sx={{
-        position: 'absolute',
-        bottom: 16,
-        right: 16
-      }}
-      onClick={() => {
-        setDrawerOpen(true);
-      }}
-    >
-      <MenuIcon />
-    </Fab>
-    <Drawer
-      open={_drawerOpen}
-      onClose={() => {
-        setDrawerOpen(false);
-      }}
-      anchor='right'
-    >
-      {links.map((link, index) => 
-        <IconButton
-          key={index}
-          href={link.href}
-          target='_blank'
-        >
-          {link.child}
-        </IconButton>
-      )}
-    </Drawer>
-  </ThemeProvider>;
+		<CssBaseline/>
+		<AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+			<Toolbar>
+				<Button href='./'>Home</Button>
+				<Button href='./albums'>Request Albums</Button>
+				<Button href='./db'>Listening Data</Button>
+			</Toolbar>
+		</AppBar>
+		<main>{children}</main>
+		<Fab 
+			size='small' 
+			color='primary' 
+			sx={{
+				position: 'absolute',
+				bottom: 16,
+				right: 16
+			}}
+			onClick={() => {
+				setDrawerOpen(true);
+			}}
+		>
+			<MenuIcon />
+		</Fab>
+		<Drawer
+			open={_drawerOpen}
+			onClose={() => {
+				setDrawerOpen(false);
+			}}
+			anchor='right'
+		>
+			{links.map((link, index) => 
+				<IconButton
+				key={index}
+				href={link.href}
+				target='_blank'
+				>
+				{link.child}
+				</IconButton>
+			)}
+			<IconButton
+				href='./admin'
+			>
+				<MenuIcon fontSize='large'/>
+			</IconButton>
+		</Drawer>
+	</ThemeProvider>;
 }
     
 export default Layout;
