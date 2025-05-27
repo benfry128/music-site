@@ -86,8 +86,9 @@ function Layout({children}: {children: React.ReactNode}) {
       }}
       anchor='right'
     >
-      {links.map((link) => 
+      {links.map((link, index) => 
         <IconButton
+          key={index}
           href={link.href}
           target='_blank'
         >
