@@ -3,7 +3,6 @@ import { Typography, Box, Stack, TextField } from '@mui/material';
 
 function Index() {
     const [_password, setPassword] = useState('');
-    console.log(process.env.NEXT_PUBLIC_ADMIN_PW);
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <Stack direction="column" alignItems='center' spacing={3}>
