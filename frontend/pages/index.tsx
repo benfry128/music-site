@@ -1,7 +1,6 @@
-import React from 'react';
 import { Typography, Box, Stack } from '@mui/material';
 
-function Index() {
+function index() {
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
 			<Typography variant='h3'>Welcome to my Website</Typography>
@@ -12,4 +11,4 @@ function Index() {
 	</Box>;
 }
 
-export default Index;
+export default index;
