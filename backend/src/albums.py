@@ -11,9 +11,9 @@ def create_album_dao(album: list) -> Album:
         title=album[1],
         artist=album[2],
         image_url=album[3],
-        date_released=album[4],
+        date_released=album[4].strftime('%Y/%m/%d'),
         rating=album[5],
-        date_listened=album[6],
+        date_listened=album[6].strftime('%Y/%m/%d') if album[6] else None,
         favorite_song=album[7],
         recommended_by=album[8],
         ranking=album[9],
@@ -45,7 +45,10 @@ def get_all_albums():
     g.cursor.execute('SELECT * FROM albums;')
 
     values = [create_album_dao(album) for album in g.cursor.fetchall()]
-    return values
+    print(values[0].date_listened)
+    print(type(values[0].date_listened))
+
+    return jsonify(albums=values), 200
 
 
 @bp.route('/queue', methods=['GET'])
@@ -53,7 +56,8 @@ def get_queue():
     g.cursor.execute('SELECT * FROM albums WHERE queue_position is not null order by queue_position;')
 
     values = [create_album_dao(album) for album in g.cursor.fetchall()]
-    return values
+
+    return jsonify(albums=values), 200
 
 
 @bp.route('/<int:album_id>', methods=['PATCH'])

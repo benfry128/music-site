@@ -8,9 +8,9 @@ class Album:
     title: str
     artist: str
     image_url: str
-    date_released: date
+    date_released: str
     rating: int | None
-    date_listened: date | None
+    date_listened: str | None
     favorite_song: str | None
     recommended_by: str | None
     ranking: int | None
