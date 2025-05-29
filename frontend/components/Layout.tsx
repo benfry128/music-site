@@ -44,7 +44,7 @@ const links = [
 		href: 'https://open.spotify.com/user/31tnaej2hznzuj25tx2p2lf7p4xy',
 		child: <SiSpotify size={32}/>
 	},
-]
+];
 
 function Layout({children}: {children: React.ReactNode}) {
   const [_drawerOpen, setDrawerOpen] = useState(false);
