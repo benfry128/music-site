@@ -45,8 +45,6 @@ def get_all_albums():
     g.cursor.execute('SELECT * FROM albums;')
 
     values = [create_album_dao(album) for album in g.cursor.fetchall()]
-    print(values[0].date_listened)
-    print(type(values[0].date_listened))
 
     return jsonify(albums=values), 200
 
