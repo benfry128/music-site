@@ -40,6 +40,14 @@ def close_db_connections(response):
     return response
 
 
+@bp.route('/', methods=['GET'])
+def get_all_albums():
+    g.cursor.execute('SELECT * FROM albums;')
+
+    values = [create_album_dao(album) for album in g.cursor.fetchall()]
+    return values
+
+
 @bp.route('/queue', methods=['GET'])
 def get_queue():
     g.cursor.execute('SELECT * FROM albums WHERE queue_position is not null order by queue_position;')
