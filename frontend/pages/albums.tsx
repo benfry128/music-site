@@ -11,7 +11,7 @@ function Index() {
 	const getQueue = async () => {
 		const response = await fetch(`${API_URL}/albums/queue`);
 		const nums = await response.json();
-		setAlbumQueue(nums)
+		setAlbumQueue(nums.albums);
 	}
 
 	useEffect( () => {
