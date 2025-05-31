@@ -59,20 +59,22 @@ function Layout({children}: {children: React.ReactNode}) {
 			</Toolbar>
 		</AppBar>
 		<main>{children}</main>
-		<Fab 
-			size='small' 
-			color='primary' 
-			sx={{
-				position: 'absolute',
-				bottom: 16,
-				right: 16
-			}}
-			onClick={() => {
-				setDrawerOpen(true);
-			}}
-		>
-			<MenuIcon />
-		</Fab>
+		{_drawerOpen || 
+			<Fab 
+				size='small' 
+				color='primary' 
+				sx={{
+					position: 'fixed',
+					bottom: 16,
+					right: 16
+				}}
+				onClick={() => {
+					setDrawerOpen(true);
+				}}
+			>
+				<MenuIcon />
+			</Fab>
+		}
 		<Drawer
 			open={_drawerOpen}
 			onClose={() => {

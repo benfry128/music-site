@@ -57,7 +57,7 @@ function Index() {
             />
             {_password === 'amorgos' &&
                 <TableContainer component={Paper}>
-                    <Table>
+                    <Table size='small'>
                         <TableHead>
                             <TableRow>
                                 <TableCell>ID</TableCell>
