@@ -4,62 +4,25 @@ import { useEffect, useState } from 'react';
 import { API_URL, Album} from '@/components/Globals';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-
-
-// from https://mui.com/material-ui/react-table/
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-interface HeadCell {
-  id: keyof Album;
-  label: string;
-}
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'title',
-    label: 'Title',
-  },
-  {
-    id: 'artist',
-    label: 'Artist',
-  },
-  {
-    id: 'date_released',
-    label: 'Released',
-  },
-  {
-    id: 'rating',
-    label: 'Rating',
-  },
-  {
-    id: 'date_listened',
-    label: 'Listened',
-  },
+const columns: GridColDef[] = [
+	{ field: 'title', headerName: 'Title'},
+	{ field: 'artist', headerName: 'Artist'},
+	{ field: 'date_released', headerName: 'Released'},
+	{ field: 'rating', headerName: 'Rating'},
+	{ field: 'date_listened', headerName: 'Listened'},
+	{ field: 'favorite_song', headerName: 'Top Song'},
+	{ field: 'recommended_by', headerName: 'From'},
+	{ field: 'ranking', headerName: 'Ranking'},
+	{ field: 'queue_position', headerName: 'Queue'}
 ];
 
 export default function Admin() {
     const [_password, setPassword] = useState('');
     const [_albums, setAlbums] = useState<Album[]>([]);
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-    const [orderBy, setOrderBy] = useState<keyof Album>('title');
 
     const getAlbums = async () => {
         const response = await fetch(`${API_URL}/albums/`);
@@ -84,49 +47,11 @@ export default function Admin() {
                         setPassword(e.target.value);
                     }}
                 />
-                : <TableContainer>
-                    <Table size={'small'}>
-                        <TableHead>
-                            <TableRow>
-                                {headCells.map((headCell) => <TableCell key={headCell.id} >
-                                    <TableSortLabel
-                                        active={orderBy === headCell.id}
-                                        direction={orderBy === headCell.id ? order : 'asc'}
-                                        onClick={() => {
-                                            const isAsc = orderBy === headCell.id && order === 'asc';
-                                            setOrder(isAsc ? 'desc' : 'asc');
-                                            setOrderBy(headCell.id);
-                                        }}
-                                    >
-                                        {headCell.label}
-                                    </TableSortLabel>
-                                </TableCell>
-                                )}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {_albums.sort(order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy)).map((row) => 
-                                <TableRow key={row.id}>
-                                    <TableCell>{row.title}</TableCell>
-                                    <TableCell>{row.artist}</TableCell>
-                                    <TableCell>{row.date_released}</TableCell>
-                                    <TableCell align='center'>{row.rating}</TableCell>
-                                    <TableCell>{row.date_listened}</TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                //                 <TableCell>ID</TableCell>
-                //                 <TableCell>Title</TableCell>
-                //                 <TableCell>Artist</TableCell>
-                //                 <TableCell>Released</TableCell>
-                //                 <TableCell>Rating</TableCell>
-                //                 <TableCell>Listened</TableCell>
-                //                 <TableCell>Top Song</TableCell>
-                //                 <TableCell>Recommended By</TableCell>
-                //                 <TableCell>Ranking</TableCell>
-                //                 <TableCell>Queue Position</TableCell>
+				: <DataGrid
+					rows={_albums}
+					columns={columns}
+				>
+				</DataGrid>
             }
         </Stack>
     </Box>;
