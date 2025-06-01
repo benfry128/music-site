@@ -1,6 +1,6 @@
 import { Typography, Box, Stack } from '@mui/material';
 
-function index() {
+export default function DB() {
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
 			<Typography variant='h3'>DB</Typography>
@@ -8,5 +8,3 @@ function index() {
 		</Stack>
 	</Box>;
 }
-
-export default index;

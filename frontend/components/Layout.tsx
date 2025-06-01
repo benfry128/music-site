@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react';
 import { SiTwitch, SiSpotify } from '@icons-pack/react-simple-icons';
 import { ThemeProvider, createTheme } from "@mui/material/styles";

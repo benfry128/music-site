@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react';
 import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -5,7 +7,7 @@ import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
 import { API_URL } from '@/components/Globals';
 
-function Index() {
+export default function Albums() {
 	const [_albumQueue, setAlbumQueue] = useState([]);
 
 	const getQueue = async () => {
@@ -80,5 +82,3 @@ function Index() {
 		</Stack>
 	</Box>;
 }
-
-export default Index;

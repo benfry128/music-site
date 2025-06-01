@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react';
 import { API_URL } from '@/components/Globals';
 import Box from '@mui/material/Box';
@@ -64,7 +66,7 @@ const headCells: readonly HeadCell[] = [
   },
 ];
 
-function Index() {
+export default function Admin() {
     const [_password, setPassword] = useState('');
     const [_albums, setAlbums] = useState<Album[]>([]);
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
@@ -140,5 +142,3 @@ function Index() {
         </Stack>
     </Box>;
 }
-
-export default Index;
