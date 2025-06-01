@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { API_URL } from '@/components/Globals';
+import { API_URL, Album} from '@/components/Globals';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -14,18 +14,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-interface Album {
-    id: number; 
-    title: string;
-    artist: string;
-    date_released: number;
-    rating: number;
-    date_listened: number;
-    favorite_song: string;
-    recommended_by: string;
-    ranking: number; 
-    queue_position: number
-}
+
 
 // from https://mui.com/material-ui/react-table/
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
