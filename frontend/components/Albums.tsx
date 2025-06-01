@@ -1,25 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react';
 import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
-import { API_URL } from '@/components/Globals';
+import { Album } from '@/components/Globals';
 
-export default function Albums() {
-	const [_albumQueue, setAlbumQueue] = useState([]);
-
-	const getQueue = async () => {
-		const response = await fetch(`${API_URL}/albums/queue`);
-		const nums = await response.json();
-		setAlbumQueue(nums.albums);
-	}
-
-	useEffect( () => {
-		getQueue();
-	}, [])
-
+export default function Albums( {albums} : { albums: Album[] }) {
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
 			<Typography variant='h3'>
@@ -41,7 +28,7 @@ export default function Albums() {
 				}}
 				modules={[EffectCoverflow]}
 			>
-				{_albumQueue.map((album: { id: number, image_url: string, title: string, artist: string, url: string }) => 
+				{albums.map((album: Album) => 
 					<SwiperSlide key={album.id}>
 						<ImageListItem
 							sx={{
