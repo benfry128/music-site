@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-import { API_URL, Album} from '@/components/Globals';
+import { useState } from 'react';
+import { Album } from '@/components/Globals';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -20,19 +20,8 @@ const columns: GridColDef[] = [
 	{ field: 'queue_position', headerName: 'Queue'}
 ];
 
-export default function Admin() {
+export default function Admin( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
-    const [_albums, setAlbums] = useState<Album[]>([]);
-
-    const getAlbums = async () => {
-        const response = await fetch(`${API_URL}/albums/`);
-        const nums : { albums: Album[]} = await response.json();
-        setAlbums(nums.albums);
-    }
-
-    useEffect( () => {
-        getAlbums();
-    }, [])
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <Stack direction="column" alignItems='center' spacing={3}>
@@ -48,7 +37,7 @@ export default function Admin() {
                     }}
                 />
 				: <DataGrid
-					rows={_albums}
+					rows={albums}
 					columns={columns}
 				>
 				</DataGrid>
