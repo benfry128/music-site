@@ -41,9 +41,11 @@ export default function Admin( {albums} : { albums: Album[] }) {
 					rows={albums}
 					columns={columns}
                     showToolbar
-                    processRowUpdate={(updatedRow, originalRow) => {
-                        console.log(originalRow);
-                        patchAlbum();
+                    processRowUpdate={ async (updatedRow: Album, originalRow: Album) => {
+                        const patchError = await patchAlbum(updatedRow);
+                        if (patchError) {
+                            return originalRow;
+                        }
                         return updatedRow;
                     }}
 				>

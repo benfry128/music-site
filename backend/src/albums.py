@@ -72,10 +72,12 @@ def patch_album(album_id: int):
     if not sql_fields:
         return jsonify(error = 'No patchable fields found'), 400
 
-    sql_values = [request.form[f] for f in sql_fields]
+    sql_values: list[str | int] = [request.form[f] for f in sql_fields]
     
+    # @TODO: get integer values to work, probably by labeling certain fields as ints vs strings or whatever
+    # @TODO: do more data validation on ints and dates to ensure that the input doesn't blow stuff up
     sql_stmt = 'update albums set ' + ', '.join([f'{f} = %s' for f in sql_fields]) + ' where id = %s;'
-    sql_values.append(str(album_id))
+    sql_values.append(album_id)
 
     g.cursor.execute(sql_stmt, sql_values)
 
