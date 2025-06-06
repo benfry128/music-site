@@ -7,17 +7,18 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { patchAlbum } from '@/app/actions';
 
 const columns: GridColDef[] = [
-	{ field: 'title', headerName: 'Title'},
-	{ field: 'artist', headerName: 'Artist'},
-	{ field: 'date_released', headerName: 'Released'},
-	{ field: 'rating', headerName: 'Rating'},
-	{ field: 'date_listened', headerName: 'Listened'},
-	{ field: 'favorite_song', headerName: 'Top Song'},
-	{ field: 'recommended_by', headerName: 'From'},
-	{ field: 'ranking', headerName: 'Ranking'},
-	{ field: 'queue_position', headerName: 'Queue'}
+	{ field: 'title', headerName: 'Title', editable: true, minWidth: 275},
+	{ field: 'artist', headerName: 'Artist', editable: true, minWidth: 175},
+	{ field: 'date_released', headerName: 'Released', editable: true, minWidth: 100},
+	{ field: 'rating', headerName: 'Rating', editable: true, minWidth: 50},
+	{ field: 'date_listened', headerName: 'Listened', editable: true, minWidth: 75},
+	{ field: 'favorite_song', headerName: 'Top Song', editable: true, minWidth: 175},
+	{ field: 'recommended_by', headerName: 'From', editable: true, minWidth: 75}, 
+	{ field: 'ranking', headerName: 'Ranking', editable: true, minWidth: 50},
+	{ field: 'queue_position', headerName: 'Queue', editable: true, minWidth: 50}
 ];
 
 export default function Admin( {albums} : { albums: Album[] }) {
@@ -39,6 +40,12 @@ export default function Admin( {albums} : { albums: Album[] }) {
 				: <DataGrid
 					rows={albums}
 					columns={columns}
+                    showToolbar
+                    processRowUpdate={(updatedRow, originalRow) => {
+                        console.log(originalRow);
+                        patchAlbum();
+                        return updatedRow;
+                    }}
 				>
 				</DataGrid>
             }
