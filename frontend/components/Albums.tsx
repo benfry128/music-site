@@ -1,6 +1,12 @@
 'use client'
 
-import { Typography, Box, Stack, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
