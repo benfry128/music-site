@@ -10,15 +10,15 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { patchAlbum } from '@/app/actions';
 
 const columns: GridColDef[] = [
-	{ field: 'title', headerName: 'Title', editable: true, minWidth: 275},
-	{ field: 'artist', headerName: 'Artist', editable: true, minWidth: 175},
-	{ field: 'date_released', headerName: 'Released', editable: true, minWidth: 100},
-	{ field: 'rating', headerName: 'Rating', editable: true, minWidth: 50},
-	{ field: 'date_listened', headerName: 'Listened', editable: true, minWidth: 75},
-	{ field: 'favorite_song', headerName: 'Top Song', editable: true, minWidth: 175},
-	{ field: 'recommended_by', headerName: 'From', editable: true, minWidth: 75}, 
-	{ field: 'ranking', headerName: 'Ranking', editable: true, minWidth: 50},
-	{ field: 'queue_position', headerName: 'Queue', editable: true, minWidth: 50}
+	{ field: 'title', headerName: 'Title', type: 'string', editable: true, minWidth: 275},
+	{ field: 'artist', headerName: 'Artist', type: 'string', editable: true, minWidth: 175},
+	{ field: 'date_released', headerName: 'Released', type: 'date', editable: true, minWidth: 100},
+	{ field: 'rating', headerName: 'Rating', type: 'number', editable: true, minWidth: 50},
+	{ field: 'date_listened', headerName: 'Listened', type: 'date', editable: true, minWidth: 75},
+	{ field: 'favorite_song', headerName: 'Top Song', type: 'string', editable: true, minWidth: 175},
+	{ field: 'recommended_by', headerName: 'From', type: 'string', editable: true, minWidth: 75}, 
+	{ field: 'ranking', headerName: 'Ranking', type: 'number', editable: true, minWidth: 50},
+	{ field: 'queue_position', headerName: 'Queue', type: 'number', editable: true, minWidth: 50}
 ];
 
 export default function Admin( {albums} : { albums: Album[] }) {
