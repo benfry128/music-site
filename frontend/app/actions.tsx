@@ -4,8 +4,6 @@ import { Album } from '@/components/Globals';
 
 
 export async function patchAlbum(updatedRow: Album) {
-    console.log(updatedRow);
-
     const formData = new FormData();
     Object.entries(updatedRow).forEach(([key, value]) => {
         formData.append(key, value);
@@ -15,7 +13,6 @@ export async function patchAlbum(updatedRow: Album) {
         method: 'PATCH', 
         body: formData
     })
-    console.log(response);
 
     if (response.status !== 200){
         return -1;
