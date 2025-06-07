@@ -2,6 +2,7 @@ from flask import Blueprint, g, jsonify, request
 import mysql.connector
 from src.globals import MYSQL_PWD
 from src.models.albums import Album
+from datetime import date
 
 bp = Blueprint('albums', __name__, url_prefix='/albums')
 
@@ -65,17 +66,30 @@ def patch_album(album_id: int):
     if not g.cursor.fetchall():
         return jsonify(error = 'Not found'), 404
 
-    patchable_fields = ['name', 'artist', 'image', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended', 'queue_position']
+    patchable_fields = ['title', 'artist', 'image_url', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended_by', 'ranking', 'queue_position']
+    int_fields = ['rating', 'ranking', 'queue_position']
+    date_fields = ['date_released', 'date_listened']
 
     sql_fields = [f for f in request.form if f in patchable_fields]
 
     if not sql_fields:
         return jsonify(error = 'No patchable fields found'), 400
 
-    sql_values: list[str | int] = [request.form[f] for f in sql_fields]
+    sql_values: list[str | int | date | None] = []
+    try:
+        for field in sql_fields:
+            value = request.form[field]
+            if value in ('NaN', 'null'):
+                sql_values.append(None)
+            elif field in int_fields:
+                sql_values.append(int(value))
+            elif field in date_fields:
+                sql_values.append(date.fromisoformat(value))
+            else:
+                sql_values.append(value)
+    except ValueError as e:
+        return jsonify(error = f'Value error: {e}'), 400
     
-    # @TODO: get integer values to work, probably by labeling certain fields as ints vs strings or whatever
-    # @TODO: do more data validation on ints and dates to ensure that the input doesn't blow stuff up
     sql_stmt = 'update albums set ' + ', '.join([f'{f} = %s' for f in sql_fields]) + ' where id = %s;'
     sql_values.append(album_id)
 
