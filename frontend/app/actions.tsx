@@ -6,7 +6,8 @@ import { Album } from '@/components/Globals';
 export async function patchAlbum(updatedRow: Album) {
     const formData = new FormData();
     Object.entries(updatedRow).forEach(([key, value]) => {
-        formData.append(key, value);
+        const valueToAppend = value instanceof Date ? value.toISOString().slice(0, 10) : value;
+        formData.append(key, valueToAppend);
     })
 
     const response = await fetch(`${API_URL}/albums/${updatedRow.id}`, {
