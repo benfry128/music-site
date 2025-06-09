@@ -88,6 +88,7 @@ def patch_album(album_id: int):
             else:
                 sql_values.append(value)
     except ValueError as e:
+        print(f'Value error: {e}')
         return jsonify(error = f'Value error: {e}'), 400
     
     sql_stmt = 'update albums set ' + ', '.join([f'{f} = %s' for f in sql_fields]) + ' where id = %s;'
