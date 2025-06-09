@@ -17,6 +17,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GitHub from '@mui/icons-material/GitHub';
 import YouTube from '@mui/icons-material/YouTube';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const darkTheme = createTheme({
   palette: {
@@ -49,56 +51,58 @@ const links = [
 ];
 
 function Layout({children}: {children: React.ReactNode}) {
-  const [_drawerOpen, setDrawerOpen] = useState(false);
+	const [_drawerOpen, setDrawerOpen] = useState(false);
 
-  return <ThemeProvider theme={darkTheme}>
-		<CssBaseline/>
-		<AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-			<Toolbar>
-				<Button href='./'>Home</Button>
-				<Button href='./albums'>Request Albums</Button>
-				<Button href='./db'>Listening Data</Button>
-			</Toolbar>
-		</AppBar>
-		<main>{children}</main>
-		{_drawerOpen || 
-			<Fab 
-				size='small' 
-				color='primary' 
-				sx={{
-					position: 'fixed',
-					bottom: 16,
-					right: 16
-				}}
-				onClick={() => {
-					setDrawerOpen(true);
-				}}
-			>
-				<MenuIcon />
-			</Fab>
-		}
-		<Drawer
-			open={_drawerOpen}
-			onClose={() => {
-				setDrawerOpen(false);
-			}}
-			anchor='right'
-		>
-			{links.map((link, index) => 
-				<IconButton
-				key={index}
-				href={link.href}
-				target='_blank'
+	return <ThemeProvider theme={darkTheme}>
+		<LocalizationProvider dateAdapter={AdapterDayjs}>
+			<CssBaseline/>
+			<AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+				<Toolbar>
+					<Button href='./'>Home</Button>
+					<Button href='./albums'>Request Albums</Button>
+					<Button href='./db'>Listening Data</Button>
+				</Toolbar>
+			</AppBar>
+			<main>{children}</main>
+			{_drawerOpen || 
+				<Fab 
+					size='small' 
+					color='primary' 
+					sx={{
+						position: 'fixed',
+						bottom: 16,
+						right: 16
+					}}
+					onClick={() => {
+						setDrawerOpen(true);
+					}}
 				>
-				{link.child}
-				</IconButton>
-			)}
-			<IconButton
-				href='./admin'
+					<MenuIcon />
+				</Fab>
+			}
+			<Drawer
+				open={_drawerOpen}
+				onClose={() => {
+					setDrawerOpen(false);
+				}}
+				anchor='right'
 			>
-				<MenuIcon fontSize='large'/>
-			</IconButton>
-		</Drawer>
+				{links.map((link, index) => 
+					<IconButton
+					key={index}
+					href={link.href}
+					target='_blank'
+					>
+					{link.child}
+					</IconButton>
+				)}
+				<IconButton
+					href='./admin'
+				>
+					<MenuIcon fontSize='large'/>
+				</IconButton>
+			</Drawer>
+		</LocalizationProvider>
 	</ThemeProvider>;
 }
     
