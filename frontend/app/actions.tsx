@@ -21,3 +21,16 @@ export async function patchAlbum(updatedRow: Partial<Album>) {
     }
     return 0;
 }
+
+
+export async function searchSpotify(search: string) {
+    const formData = new FormData();
+    formData.append('album', search);
+
+    const response = await fetch(`${API_URL}/spotify/search/${search}`)
+
+    if (response.status !== 200){
+        return -1;
+    }
+    return 0;
+}
