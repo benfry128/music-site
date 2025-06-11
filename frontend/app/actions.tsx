@@ -28,9 +28,9 @@ export async function searchSpotify(search: string) {
     formData.append('album', search);
 
     const response = await fetch(`${API_URL}/spotify/search/${search}`)
+    const albums = await response.json();
 
-    if (response.status !== 200){
-        return -1;
-    }
-    return 0;
+    console.log(albums.albums[0]);
+
+    return albums.albums;
 }

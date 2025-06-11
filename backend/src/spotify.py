@@ -11,7 +11,6 @@ def prep_spotipy():
 
 @bp.route('/search/<search_str>', methods=['GET'])
 def search_albums(search_str: str):
-    albums = g.sp.search(q=f'album:{search_str}', type='album', limit=10)
-    print(albums)
+    albums = g.sp.search(q=f'album:{search_str}', type='album', limit=10)['albums']['items']
 
-    return 'hi'
+    return jsonify(albums=albums), 200
