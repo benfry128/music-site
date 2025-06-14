@@ -99,3 +99,52 @@ def patch_album(album_id: int):
     g.db.commit()
 
     return jsonify(message='success'), 200
+
+
+@bp.route('', methods=['POST'])
+def post_album():
+    post_fields_needed = ['title', 'artist', 'image_url', 'date_released']
+    url_providers = ['spotify_id', 'url']
+
+    if any([not f in request.form for f in post_fields_needed]) or not any([f in request.form for f in url_providers]):
+        return jsonify(error = 'Necessary post field missing from request'), 400
+    
+    full_url = f'https://open.spotify.com/album/{request.form["spotify_id"]}' if 'spotify_id' in request.form else request.form['url']
+
+    g.cursor.execute('select * from albums where url = %s;', [full_url])
+
+    if g.cursor.fetchall():
+        return jsonify(error = 'Url already in db'), 400
+    
+    postable_fields = ['title', 'artist', 'image_url', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended_by', 'ranking', 'queue_position', 'spotify_id']
+    int_fields = ['rating', 'ranking', 'queue_position']
+    date_fields = ['date_released', 'date_listened']
+
+    sql_fields = [f for f in request.form if f in postable_fields]
+
+    sql_values: list[str | int | date | None] = []
+    try:
+        for field in sql_fields:
+            value = request.form[field]
+            if value in ('NaN', 'null'):
+                sql_values.append(None)
+            elif field in int_fields:
+                sql_values.append(int(value))
+            elif field in date_fields:
+                sql_values.append(date.fromisoformat(value))
+            else:
+                sql_values.append(value)
+    except ValueError as e:
+        print(f'Value error: {e}')
+        return jsonify(error = f'Value error: {e}'), 400
+    
+    sql_fields.append('url')
+    sql_values.append(full_url)
+    
+    sql_stmt = f'insert into albums ({", ".join(sql_fields)}) values ({", ".join(["%s"] * len(sql_fields))});'
+
+    g.cursor.execute(sql_stmt, sql_values)
+
+    g.db.commit()
+    
+    return jsonify(message='success'), 200
