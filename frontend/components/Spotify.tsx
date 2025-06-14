@@ -2,47 +2,43 @@
 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-
-import { useState } from 'react';
+import Box from '@mui/material/Box'
+import { SyntheticEvent, useState } from 'react';
 import { searchSpotify } from '@/app/actions';
-
-interface SpAlbum {
-    id: string; 
-    name: string;
-    artists: {
-        name: string;
-    }[];
-}
+import { SpAlbum } from './Globals';
 
 let timer : NodeJS.Timeout;
 
-export default function Spotify() {
+export default function Spotify({ onChange }: { onChange : (event: SyntheticEvent, value: SpAlbum | null) => void }) {
     const [_searchStr, setSearchStr] = useState('');
     const [_possibleAlbums, setPossibleAlbums] = useState([]);
 
-    return <Autocomplete
-        inputValue={_searchStr}
-        onInputChange={ (event, newString) => {
-            setSearchStr(newString);
+    return <Box p={1}>
+        <Autocomplete
+            filterOptions={(x) => x}
+            inputValue={_searchStr}
+            onInputChange={ (event, newString) => {
+                setSearchStr(newString);
 
-            //throttling spotify requests
-            clearTimeout(timer);
+                //throttling spotify requests
+                clearTimeout(timer);
 
-            if (newString) {
-                timer = setTimeout(async () => {
-                    const stuff = await searchSpotify(newString);
-                    setPossibleAlbums(stuff);
-                    console.log(stuff[0].artists[0].name);
-                }, 1000);
-            } else {
-                setPossibleAlbums([]);
-            }
-        }}
-        renderInput={(params) => <TextField {...params} label="Search for an album" />}
-        options={_possibleAlbums}
-        sx={{
-            minWidth: '300px'
-        }}
-        getOptionLabel={(album : SpAlbum) => `${album.name} - ${album.artists[0].name} - ${album.id}`}
-    />;
+                if (newString) {
+                    timer = setTimeout(async () => {
+                        const stuff = await searchSpotify(newString);
+                        setPossibleAlbums(stuff);
+                    }, 1000);
+                } else {
+                    setPossibleAlbums([]);
+                }
+            }}
+            renderInput={(params) => <TextField {...params} label="Search for an album" name='spotifyAlbum'/>}
+            options={_possibleAlbums}
+            sx={{
+                minWidth: '300px'
+            }}
+            getOptionLabel={(album : SpAlbum) => `${album.name} - ${album.artists[0].name} - ${album.id}`}
+            onChange={(event, value) => {onChange(event, value);}}
+        />
+    </Box>;
 }
