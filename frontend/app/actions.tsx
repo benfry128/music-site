@@ -30,7 +30,5 @@ export async function searchSpotify(search: string) {
     const response = await fetch(`${API_URL}/spotify/search/${search}`)
     const albums = await response.json();
 
-    console.log(albums.albums[0]);
-
     return albums.albums;
 }
