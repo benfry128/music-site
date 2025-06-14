@@ -9,7 +9,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -21,6 +20,8 @@ import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import { patchAlbum } from '@/app/actions';
 import { useState } from 'react';
+import Spotify from './Spotify';
+import { SpAlbum } from '@/components/Globals';
 
 const columns: GridColDef[] = [
 	{ field: 'title', headerName: 'Title', type: 'string', editable: true, minWidth: 275},
@@ -37,6 +38,8 @@ const columns: GridColDef[] = [
 export default function Admin( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
     const [_reviewDialogOpen, setReviewDialogOpen] = useState(false);
+    const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
+    const [_spAlbum, setSpAlbum] = useState<SpAlbum | null>(null);
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <Stack direction="column" alignItems='center' spacing={3}>
@@ -52,7 +55,10 @@ export default function Admin( {albums} : { albums: Album[] }) {
                     }}
                 />
 				: <>
-                    <Button variant='outlined' onClick={() => setReviewDialogOpen(true)}>Review Album</Button>
+                    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
+                        <Button variant='outlined' onClick={() => setReviewDialogOpen(true)}>Review Album</Button>
+                        <Button variant='outlined' onClick={() => setNewAlbumDialogOpen(true)}>Add New Album</Button>
+                    </Box>
                     <DataGrid
                         rows={albums}
                         columns={columns}
@@ -64,8 +70,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                             }
                             return updatedRow;
                         }}
-                    >
-                    </DataGrid>
+                    />
                 </>
             }
         </Stack>
@@ -86,7 +91,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                             queue_position: null,
                             album: null
                         };
-                        // setReviewDialogOpen(false);
+                        setReviewDialogOpen(false);
                         patchAlbum(patchObject);
                     }
                 }
@@ -96,10 +101,6 @@ export default function Admin( {albums} : { albums: Album[] }) {
         >
             <DialogTitle>Review Album</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Among Us
-                </DialogContentText>
-                <br/>
                 <Autocomplete
                     options={albums.filter((album) => Number.isNaN(album.rating))}
                     renderInput={(params) => <TextField {...params} label='Album' name='album' required/>}
@@ -148,6 +149,42 @@ export default function Admin( {albums} : { albums: Album[] }) {
             </DialogContent>
             <DialogActions>
                 <Button type='submit'>Submit Review</Button>
+            </DialogActions>
+        </Dialog>
+        <Dialog
+            onClose={() => setNewAlbumDialogOpen(false)}
+            open={_newAlbumDialogOpen}
+            slotProps={{
+                paper: {
+                    component: 'form',
+                    onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+                        event.preventDefault();
+                        const formData = new FormData(event.currentTarget);
+                        const formJson = Object.fromEntries(formData.entries());
+
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const { album: _, ...patchObject} = { //remove album from object to send to patchAlbum
+                            ...formJson, 
+                            id: parseInt(formJson.album.toString().split(' ').slice(-1)[0]), 
+                            queue_position: null,
+                            album: null
+                        };
+
+                        setNewAlbumDialogOpen(false);
+                    }
+                }
+            }}
+            fullWidth
+            maxWidth='sm'
+        >
+            <DialogTitle>Add Album To DB</DialogTitle>
+            <DialogContent>
+                <Spotify
+                    onChange={(event, target) => {setSpAlbum(target);}}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button type='submit'>Add Album</Button>
             </DialogActions>
         </Dialog>
     </Box>;
