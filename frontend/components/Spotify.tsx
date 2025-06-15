@@ -27,17 +27,17 @@ export default function Spotify({ onChange }: { onChange : (event: SyntheticEven
                     timer = setTimeout(async () => {
                         const stuff = await searchSpotify(newString);
                         setPossibleAlbums(stuff);
-                    }, 1000);
+                    }, 400);
                 } else {
                     setPossibleAlbums([]);
                 }
             }}
-            renderInput={(params) => <TextField {...params} label="Search for an album" name='spotifyAlbum'/>}
+            renderInput={(params) => <TextField {...params} label="Search for an album" />}
             options={_possibleAlbums}
             sx={{
                 minWidth: '300px'
             }}
-            getOptionLabel={(album : SpAlbum) => `${album.name} - ${album.artists[0].name} - ${album.id}`}
+            getOptionLabel={(album : SpAlbum) => `${album.name} - ${album.artists[0].name}`}
             onChange={(event, value) => {onChange(event, value);}}
         />
     </Box>;
