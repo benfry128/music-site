@@ -41,6 +41,12 @@ export default function Admin( {albums} : { albums: Album[] }) {
     const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
     const [_spAlbum, setSpAlbum] = useState<SpAlbum | null>(null);
 
+    function closeDialogs() {
+        setSpAlbum(null);
+        setReviewDialogOpen(false);
+        setNewAlbumDialogOpen(false);
+    }
+
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <Stack direction="column" alignItems='center' spacing={3}>
             <Typography variant='h3'>
@@ -75,7 +81,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
             }
         </Stack>
         <Dialog
-            onClose={() => setReviewDialogOpen(false)}
+            onClose={closeDialogs}
             open={_reviewDialogOpen}
             slotProps={{
                 paper: {
@@ -159,7 +165,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
             </DialogActions>
         </Dialog>
         <Dialog
-            onClose={() => setNewAlbumDialogOpen(false)}
+            onClose={closeDialogs}
             open={_newAlbumDialogOpen}
             fullWidth
             maxWidth='sm'
@@ -181,10 +187,11 @@ export default function Admin( {albums} : { albums: Album[] }) {
                             date_released: _spAlbum?.release_date,
                             image_url: _spAlbum?.images[0].url,
                             url: 'https://open.spotify.com/album/' + _spAlbum?.id,
-                            spotify_id: _spAlbum?.id
+                            spotify_id: _spAlbum?.id, 
+                            ranking: 502
                         }
-                        postAlbum(album)
-                        setNewAlbumDialogOpen(false);
+                        postAlbum(album);
+                        closeDialogs();
                     }}
                     disabled={!_spAlbum}
                 >
