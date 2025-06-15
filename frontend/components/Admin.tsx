@@ -101,11 +101,18 @@ export default function Admin( {albums} : { albums: Album[] }) {
         >
             <DialogTitle>Review Album</DialogTitle>
             <DialogContent>
-                <Autocomplete
-                    options={albums.filter((album) => Number.isNaN(album.rating))}
-                    renderInput={(params) => <TextField {...params} label='Album' name='album' required/>}
-                    getOptionLabel={(album) => `${album.title} - ${album.artist} - ${album.id}`}
-                />
+                <Box pt={1} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
+                    <Autocomplete
+                        options={albums.filter((album) => Number.isNaN(album.rating))}
+                        renderInput={(params) => <TextField {...params} label='Album' name='album' required/>}
+                        getOptionLabel={(album) => `${album.title} - ${album.artist} - ${album.id}`}
+                        fullWidth
+                        disabled={!!_spAlbum}
+                    />
+                    <Spotify
+                        onChange={(event, target) => {setSpAlbum(target);}}
+                    />
+                </Box>
                 <br/>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
                     <FormControl fullWidth required>
@@ -159,9 +166,11 @@ export default function Admin( {albums} : { albums: Album[] }) {
         >
             <DialogTitle>Add Album To DB</DialogTitle>
             <DialogContent>
-                <Spotify
-                    onChange={(event, target) => {setSpAlbum(target);}}
-                />
+                <Box pt={1}>
+                    <Spotify
+                        onChange={(event, target) => {setSpAlbum(target);}}
+                    />
+                </Box>
             </DialogContent>
             <DialogActions>
                 <Button
