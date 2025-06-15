@@ -103,7 +103,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                 }
             }}
             fullWidth
-            maxWidth='sm'
+            maxWidth='md'
         >
             <DialogTitle>Review Album</DialogTitle>
             <DialogContent>
@@ -146,6 +146,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                         name='recommended_by'
                         sx={{ minWidth: 200}}
                         required
+                        fullWidth
                     >
                         From
                     </TextField>
