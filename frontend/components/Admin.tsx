@@ -90,15 +90,29 @@ export default function Admin( {albums} : { albums: Album[] }) {
                         event.preventDefault();
                         const formData = new FormData(event.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        const { album: _, ...patchObject} = { //remove album from object to send to patchAlbum
-                            ...formJson, 
-                            id: parseInt(formJson.album.toString().split(' ').slice(-1)[0]), 
-                            queue_position: null,
-                            album: null
-                        };
-                        setReviewDialogOpen(false);
-                        patchAlbum(patchObject);
+                        if (!!_spAlbum) {
+                            const album = {
+                                ...formJson,
+                                title: _spAlbum.name,
+                                artist: _spAlbum.artists[0].name,
+                                date_released: _spAlbum.release_date,
+                                image_url: _spAlbum.images[0].url,
+                                url: 'https://open.spotify.com/album/' + _spAlbum.id,
+                                spotify_id: _spAlbum.id,
+                                ranking: 502
+                            }
+                            postAlbum(album);
+                        } else {
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            const { album: _, ...patchObject} = { //remove album from object to send to patchAlbum
+                                ...formJson, 
+                                id: parseInt(formJson.album.toString().split(' ').slice(-1)[0]), 
+                                queue_position: null,
+                                album: null
+                            };
+                            patchAlbum(patchObject);
+                        }
+                        closeDialogs();
                     }
                 }
             }}
