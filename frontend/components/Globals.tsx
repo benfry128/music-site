@@ -4,7 +4,7 @@ export interface Album {
     id: number; 
     title: string;
     artist: string;
-    date_released: Date | null;
+    date_released: Date | string | null;
     rating: number | null;
     date_listened: Date | null;
     favorite_song: string;
@@ -13,6 +13,7 @@ export interface Album {
     queue_position: number | null;
     image_url: string;
     url: string;
+    spotify_id: string | null;
 }
 
 export interface BackendAlbum {
@@ -36,6 +37,10 @@ export interface SpAlbum {
     artists: {
         name: string;
     }[];
+    release_date: string;
+    images: {
+        url: string;
+    }[];
 }
 
 function getDateFromString(dateString: string | null) {
@@ -46,7 +51,7 @@ function getDateFromString(dateString: string | null) {
     return new Date(year, month, day);
 }
 
-export function convertBackendAlbum(album: BackendAlbum): Album {
+export function convertBackendAlbum(album: BackendAlbum): Partial<Album> {
     return {
         id: parseInt(album.id),
         title: album.title,
