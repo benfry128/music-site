@@ -32,3 +32,23 @@ export async function searchSpotify(search: string) {
 
     return albums.albums;
 }
+
+
+export async function postAlbum(data: Partial<Album>) {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+        const valueToAppend = value instanceof Date ? value.toISOString().slice(0, 10) : value;
+        const denullValue = valueToAppend === null ? 'null' : valueToAppend;
+        formData.append(key, denullValue.toString());
+    })
+
+    const response = await fetch(`${API_URL}/albums`, {
+        method: 'POST', 
+        body: formData
+    })
+
+    if (response.status !== 200){
+        return -1;
+    }
+    return 0;
+}

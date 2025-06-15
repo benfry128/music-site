@@ -18,7 +18,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import { patchAlbum } from '@/app/actions';
+import { patchAlbum, postAlbum } from '@/app/actions';
 import { useState } from 'react';
 import Spotify from './Spotify';
 import { SpAlbum } from '@/components/Globals';
@@ -154,26 +154,6 @@ export default function Admin( {albums} : { albums: Album[] }) {
         <Dialog
             onClose={() => setNewAlbumDialogOpen(false)}
             open={_newAlbumDialogOpen}
-            slotProps={{
-                paper: {
-                    component: 'form',
-                    onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-                        event.preventDefault();
-                        const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries(formData.entries());
-
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        const { album: _, ...patchObject} = { //remove album from object to send to patchAlbum
-                            ...formJson, 
-                            id: parseInt(formJson.album.toString().split(' ').slice(-1)[0]), 
-                            queue_position: null,
-                            album: null
-                        };
-
-                        setNewAlbumDialogOpen(false);
-                    }
-                }
-            }}
             fullWidth
             maxWidth='sm'
         >
@@ -184,7 +164,23 @@ export default function Admin( {albums} : { albums: Album[] }) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button type='submit'>Add Album</Button>
+                <Button
+                    onClick={() => {
+                        const album = {
+                            title: _spAlbum?.name,
+                            artist: _spAlbum?.artists[0].name,
+                            date_released: _spAlbum?.release_date,
+                            image_url: _spAlbum?.images[0].url,
+                            url: 'https://open.spotify.com/album/' + _spAlbum?.id,
+                            spotify_id: _spAlbum?.id
+                        }
+                        postAlbum(album)
+                        setNewAlbumDialogOpen(false);
+                    }}
+                    disabled={!_spAlbum}
+                >
+                    Add Album
+                </Button>
             </DialogActions>
         </Dialog>
     </Box>;
