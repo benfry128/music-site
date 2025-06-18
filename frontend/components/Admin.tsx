@@ -123,7 +123,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
             <DialogContent>
                 <Box pt={1} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
                     <Autocomplete
-                        options={albums.filter((album) => Number.isNaN(album.rating))}
+                        options={albums ? albums.filter((album) => Number.isNaN(album.rating)): []}
                         renderInput={(params) => <TextField {...params} label='Album' name='album' required/>}
                         getOptionLabel={(album) => `${album.title} - ${album.artist} - ${album.id}`}
                         fullWidth

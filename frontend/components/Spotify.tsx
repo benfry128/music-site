@@ -12,6 +12,8 @@ export default function Spotify({ onChange }: { onChange : (event: SyntheticEven
     const [_searchStr, setSearchStr] = useState('');
     const [_possibleAlbums, setPossibleAlbums] = useState([]);
 
+    console.log(_possibleAlbums);
+
     return <Autocomplete
         filterOptions={(x) => x}
         inputValue={_searchStr}
