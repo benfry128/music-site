@@ -20,9 +20,11 @@ export default function Spotify({ onChange }: { onChange : (event: SyntheticEven
 
             //throttling spotify requests
             clearTimeout(timer);
+            console.log(timer);
 
             if (newString) {
                 timer = setTimeout(async () => {
+                    console.log("HI");
                     const stuff = await searchSpotify(newString);
                     setPossibleAlbums(stuff);
                 }, 400);
