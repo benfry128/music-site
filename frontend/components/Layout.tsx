@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { SiTwitch, SiSpotify } from '@icons-pack/react-simple-icons';
+import { SiSpotify } from '@icons-pack/react-simple-icons';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import AppBar from "@mui/material/AppBar";
@@ -16,7 +16,6 @@ import { orange } from "@mui/material/colors";
 import MenuIcon from "@mui/icons-material/Menu";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GitHub from '@mui/icons-material/GitHub';
-import YouTube from '@mui/icons-material/YouTube';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -37,14 +36,6 @@ const links = [
 		child: <GitHub fontSize='large'/>
 	},
 	{
-		href: 'https://www.youtube.com/@benjammin128',
-		child: <YouTube fontSize='large'/>
-	},
-	{
-		href: 'https://www.twitch.tv/benjammin128',
-		child: <SiTwitch size={32}/>
-	},
-	{
 		href: 'https://open.spotify.com/user/31tnaej2hznzuj25tx2p2lf7p4xy',
 		child: <SiSpotify size={32}/>
 	},
@@ -59,8 +50,7 @@ function Layout({children}: {children: React.ReactNode}) {
 			<AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
 				<Toolbar>
 					<Button href='./'>Home</Button>
-					<Button href='./albums'>Request Albums</Button>
-					<Button href='./db'>Listening Data</Button>
+					<Button href='./albums'>Album Reviews</Button>
 				</Toolbar>
 			</AppBar>
 			<main>{children}</main>
