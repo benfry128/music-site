@@ -16,8 +16,6 @@ def search_albums(search_str: str):
     deduped_albums = []
 
     for album in albums:
-        print(album['name'] + album['artists'][0]['name'])
-        print([(a['name'] + a['artists'][0]['name']) for a in deduped_albums])
         if (album['name'] + album['artists'][0]['name']) not in [(a['name'] + a['artists'][0]['name']) for a in deduped_albums]:
             deduped_albums.append(album)
 

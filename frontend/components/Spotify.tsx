@@ -12,8 +12,6 @@ export default function Spotify({ onChange }: { onChange : (event: SyntheticEven
     const [_searchStr, setSearchStr] = useState('');
     const [_possibleAlbums, setPossibleAlbums] = useState([]);
 
-    console.log(_possibleAlbums);
-
     return <Autocomplete
         filterOptions={(x) => x}
         inputValue={_searchStr}
@@ -22,11 +20,9 @@ export default function Spotify({ onChange }: { onChange : (event: SyntheticEven
 
             //throttling spotify requests
             clearTimeout(timer);
-            console.log(timer);
 
             if (newString) {
                 timer = setTimeout(async () => {
-                    console.log("HI");
                     const stuff = await searchSpotify(newString);
                     setPossibleAlbums(stuff);
                 }, 400);
