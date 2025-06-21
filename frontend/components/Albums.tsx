@@ -6,6 +6,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { SiSpotify, SiSpotifyHex } from '@icons-pack/react-simple-icons';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
@@ -15,9 +16,7 @@ import { Album } from '@/components/Globals';
 export default function Albums( {albums} : { albums: Album[] }) {
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
-			<Typography variant='h3'>
-				Albums
-			</Typography>
+			<Typography variant='h3'>Albums</Typography>
 			<Typography maxWidth='50%'>Upcoming albums on my list:</Typography>
 			<Swiper
 				effect={'coverflow'}
@@ -57,14 +56,9 @@ export default function Albums( {albums} : { albums: Album[] }) {
 								actionIcon={
 								<IconButton
 									href={album.url}
+									target='_blank'
 								>
-									<Image
-									src='/spotify_logo.png'
-									width={939}
-									height={940}
-									alt={'Spotify Logo'}
-									className='spotify'
-									/>
+									<SiSpotify color={SiSpotifyHex} size='36' />
 								</IconButton>
 								}
 							/>
