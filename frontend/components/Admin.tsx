@@ -38,13 +38,11 @@ const columns: GridColDef[] = [
 export default function Admin( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
     const [_reviewDialogOpen, setReviewDialogOpen] = useState(false);
-    const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
     const [_spAlbum, setSpAlbum] = useState<SpAlbum | null>(null);
 
     function closeDialogs() {
         setSpAlbum(null);
         setReviewDialogOpen(false);
-        setNewAlbumDialogOpen(false);
     }
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
@@ -63,7 +61,6 @@ export default function Admin( {albums} : { albums: Album[] }) {
 				: <>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
                         <Button variant='outlined' onClick={() => setReviewDialogOpen(true)}>Review Album</Button>
-                        <Button variant='outlined' onClick={() => setNewAlbumDialogOpen(true)}>Add New Album</Button>
                     </Box>
                     <DataGrid
                         rows={albums}
@@ -178,41 +175,6 @@ export default function Admin( {albums} : { albums: Album[] }) {
             </DialogContent>
             <DialogActions>
                 <Button type='submit'>Submit Review</Button>
-            </DialogActions>
-        </Dialog>
-        <Dialog
-            onClose={closeDialogs}
-            open={_newAlbumDialogOpen}
-            fullWidth
-            maxWidth='sm'
-        >
-            <DialogTitle>Add Album To DB</DialogTitle>
-            <DialogContent>
-                <Box pt={1}>
-                    <Spotify
-                        onChange={(event, target) => {setSpAlbum(target);}}
-                    />
-                </Box>
-            </DialogContent>
-            <DialogActions>
-                <Button
-                    onClick={() => {
-                        const album = {
-                            title: _spAlbum?.name,
-                            artist: _spAlbum?.artists[0].name,
-                            date_released: _spAlbum?.release_date,
-                            image_url: _spAlbum?.images[0].url,
-                            url: 'https://open.spotify.com/album/' + _spAlbum?.id,
-                            spotify_id: _spAlbum?.id, 
-                            ranking: 502
-                        }
-                        postAlbum(album);
-                        closeDialogs();
-                    }}
-                    disabled={!_spAlbum}
-                >
-                    Add Album
-                </Button>
             </DialogActions>
         </Dialog>
     </Box>;
