@@ -8,20 +8,20 @@ import { SpAlbum } from './Globals';
 
 let timer : NodeJS.Timeout;
 
-export default function Spotify({ onChange }: { onChange : (event: SyntheticEvent, value: SpAlbum | null) => void }) {
+export default function Spotify({ onChange, required }: { onChange : (event: SyntheticEvent, value: SpAlbum | null) => void, required : boolean }) {
     const [_searchStr, setSearchStr] = useState('');
     const [_possibleAlbums, setPossibleAlbums] = useState([]);
 
     return <Autocomplete
         filterOptions={(x) => x}
         inputValue={_searchStr}
-        onInputChange={ (event, newString) => {
+        onInputChange={ (event, newString, reason) => {
             setSearchStr(newString);
 
             //throttling spotify requests
             clearTimeout(timer);
 
-            if (newString) {
+            if (reason === 'input' && newString) {
                 timer = setTimeout(async () => {
                     const stuff = await searchSpotify(newString);
                     setPossibleAlbums(stuff);
@@ -30,7 +30,7 @@ export default function Spotify({ onChange }: { onChange : (event: SyntheticEven
                 setPossibleAlbums([]);
             }
         }}
-        renderInput={(params) => <TextField {...params} label="Search for an album" />}
+        renderInput={(params) => <TextField {...params} label="Search for an album" required={required} />}
         options={_possibleAlbums}
         sx={{
             minWidth: '300px'

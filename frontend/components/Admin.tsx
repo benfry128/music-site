@@ -131,6 +131,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                     />
                     <Spotify
                         onChange={(event, target) => {setSpAlbum(target);}}
+                        required={false}
                     />
                 </Box>
                 <br/>
