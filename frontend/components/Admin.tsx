@@ -50,7 +50,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
             <Typography variant='h3'>
                 Admin
             </Typography>
-            {_password !== 'amorgos' ?
+            {_password !== process.env.NEXT_PUBLIC_ADMIN_PW ?
                 <TextField
                     label='Enter password'
                     value={_password}
