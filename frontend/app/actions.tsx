@@ -1,6 +1,7 @@
 'use server'
 import { API_URL } from '@/components/Globals';
 import { Album } from '@/components/Globals';
+import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 
 
 export async function patchAlbum(updatedRow: Partial<Album>) {
@@ -24,13 +25,11 @@ export async function patchAlbum(updatedRow: Partial<Album>) {
 
 
 export async function searchSpotify(search: string) {
-    const formData = new FormData();
-    formData.append('album', search);
+    const sdk = SpotifyApi.withClientCredentials(process.env.SPOTIFY_CLIENT_ID || '', process.env.SPOTIFY_CLIENT_SECRET || '');
 
-    const response = await fetch(`${API_URL}/spotify/search/${search}`)
-    const albums = await response.json();
+    const items = await sdk.search(search, ['album']);
 
-    return albums.albums;
+    return items.albums.items;
 }
 
 
