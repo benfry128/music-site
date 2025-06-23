@@ -5,12 +5,13 @@ import TextField from '@mui/material/TextField';
 import { SyntheticEvent, useState } from 'react';
 import { searchSpotify } from '@/app/actions';
 import { SpAlbum } from './Globals';
+import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 
 let timer : NodeJS.Timeout;
 
 export default function Spotify({ onChange, required }: { onChange : (event: SyntheticEvent, value: SpAlbum | null) => void, required : boolean }) {
     const [_searchStr, setSearchStr] = useState('');
-    const [_possibleAlbums, setPossibleAlbums] = useState([]);
+    const [_possibleAlbums, setPossibleAlbums] = useState<SimplifiedAlbum[]>([]);
 
     return <Autocomplete
         filterOptions={(x) => x}
