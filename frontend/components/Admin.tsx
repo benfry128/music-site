@@ -21,7 +21,7 @@ import dayjs from 'dayjs';
 import { patchAlbum, postAlbum } from '@/app/actions';
 import { useState } from 'react';
 import Spotify from './Spotify';
-import { SpAlbum } from '@/components/Globals';
+import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 
 const columns: GridColDef[] = [
 	{ field: 'title', headerName: 'Title', type: 'string', editable: true, minWidth: 275},
@@ -38,7 +38,7 @@ const columns: GridColDef[] = [
 export default function Admin( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
     const [_reviewDialogOpen, setReviewDialogOpen] = useState(false);
-    const [_spAlbum, setSpAlbum] = useState<SpAlbum | null>(null);
+    const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
 
     function closeDialogs() {
         setSpAlbum(null);
@@ -87,7 +87,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                         event.preventDefault();
                         const formData = new FormData(event.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
-                        if (!!_spAlbum) {
+                        if (_spAlbum) {
                             const album = {
                                 ...formJson,
                                 title: _spAlbum.name,

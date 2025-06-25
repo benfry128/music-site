@@ -31,18 +31,6 @@ export interface BackendAlbum {
     url: string;
 }
 
-export interface SpAlbum {
-    id: string; 
-    name: string;
-    artists: {
-        name: string;
-    }[];
-    release_date: string;
-    images: {
-        url: string;
-    }[];
-}
-
 function getDateFromString(dateString: string | null) {
     if (dateString === null) {
         return null

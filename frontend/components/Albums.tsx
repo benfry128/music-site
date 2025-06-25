@@ -19,14 +19,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Spotify from './Spotify';
-import { SpAlbum } from '@/components/Globals';
+import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { postAlbum } from '@/app/actions';
 import TextField from '@mui/material/TextField';
 
 
 export default function Albums( {albums} : { albums: Album[] }) {
 	const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
-	const [_spAlbum, setSpAlbum] = useState<SpAlbum | null>(null);
+	const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
 
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
@@ -94,13 +94,14 @@ export default function Albums( {albums} : { albums: Album[] }) {
 						event.preventDefault();
 						// const formData = new FormData(event.currentTarget);
 						// const formJson = Object.fromEntries(formData.entries());
+						if (!_spAlbum) return false;
 						const album = {
-                            title: _spAlbum?.name,
-                            artist: _spAlbum?.artists[0].name,
-                            date_released: _spAlbum?.release_date,
-                            image_url: _spAlbum?.images[0].url,
-                            url: 'https://open.spotify.com/album/' + _spAlbum?.id,
-                            spotify_id: _spAlbum?.id, 
+                            title: _spAlbum.name,
+                            artist: _spAlbum.artists[0].name,
+                            date_released: _spAlbum.release_date,
+                            image_url: _spAlbum.images[0].url,
+                            url: 'https://open.spotify.com/album/' + _spAlbum.id,
+                            spotify_id: _spAlbum.id, 
                             ranking: 502
                         }
                         postAlbum(album);
@@ -138,7 +139,6 @@ export default function Albums( {albums} : { albums: Album[] }) {
                         From
                     </TextField>
                 </Box>
-
             </DialogContent>
             <DialogActions>
                 <Button type='submit'>Submit Album</Button>
