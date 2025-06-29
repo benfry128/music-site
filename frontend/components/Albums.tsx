@@ -28,6 +28,11 @@ export default function Albums( {albums} : { albums: Album[] }) {
 	const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
 	const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
 
+	const queueAlbums = albums.filter((a) => a.queue_position).sort((a, b) => (a.queue_position! - b.queue_position!));
+
+	const albumInDb = _spAlbum ? albums.find((a) => a.spotify_id === _spAlbum.id) : null;
+	const albumIsReviewed = !!albumInDb && !Number.isNaN(albumInDb.rating);
+
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
 			<Typography variant='h3'>Albums</Typography>
@@ -48,7 +53,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 				}}
 				modules={[EffectCoverflow]}
 			>
-				{albums.map((album: Album) => 
+				{queueAlbums.map((album: Album) => 
 					<SwiperSlide key={album.id}>
 						<ImageListItem
 							sx={{
@@ -83,7 +88,10 @@ export default function Albums( {albums} : { albums: Album[] }) {
 			</Swiper>
 		</Stack>
 		<Dialog
-            onClose={() => setNewAlbumDialogOpen(false)}
+            onClose={() => {
+				setSpAlbum(null);
+				setNewAlbumDialogOpen(false);
+			}}
             open={_newAlbumDialogOpen}
             fullWidth
             maxWidth='sm'
@@ -112,26 +120,47 @@ export default function Albums( {albums} : { albums: Album[] }) {
         >
             <DialogTitle>Recommend an Album</DialogTitle>
             <DialogContent>
-                <Box pt={1}>
+                <Box m={1}>
                     <Spotify
                         onChange={(event, target) => {setSpAlbum(target);}}
-						required={true}
+						renderInput={(params) => {
+							let helperText = '';
+							if (albumIsReviewed) {
+								helperText += `I reviewed this album on ${albumInDb.date_listened?.toLocaleDateString()}. `
+								switch (albumInDb.rating) {
+									case 0:
+										helperText += "I didn't really like it. ";
+										break;
+									case 1:
+										helperText += 'I thought it was decent. ';
+										break;
+									case 2:
+										helperText += 'I really liked it! ';
+								}
+								helperText += 'Check out the review on Instagram!';
+							}
+							return <TextField 
+								{...params} 
+								label="Search for an album" 
+								required
+								// error={albumIsReviewed}
+								helperText={helperText}
+							/>;
+						}}
                     />
                 </Box>
-				<br/>
-                <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
-                    <TextField
-                        label='Recommended By'
+                <Box m={1} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
+					<TextField
+                        label='Name'
                         name='recommended_by'
                         sx={{ minWidth: 200}}
                         required
                         fullWidth
 					/>
                     <TextField
-                        label='Recommended By'
+                        label='Notes'
                         name='recommended_by'
                         sx={{ minWidth: 200}}
-                        required
                         fullWidth
 					/>
                 </Box>
