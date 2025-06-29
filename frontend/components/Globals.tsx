@@ -29,6 +29,7 @@ export interface BackendAlbum {
     queue_position: string | null;
     image_url: string;
     url: string;
+    spotify_id: string | null;
 }
 
 function getDateFromString(dateString: string | null) {
@@ -39,7 +40,7 @@ function getDateFromString(dateString: string | null) {
     return new Date(year, month, day);
 }
 
-export function convertBackendAlbum(album: BackendAlbum): Partial<Album> {
+export function convertBackendAlbum(album: BackendAlbum): Album {
     return {
         id: parseInt(album.id),
         title: album.title,
@@ -52,6 +53,7 @@ export function convertBackendAlbum(album: BackendAlbum): Partial<Album> {
         ranking: parseInt(album.ranking!),
         queue_position: parseInt(album.queue_position!),
         image_url: album.image_url,
-        url: album.url
+        url: album.url,
+        spotify_id: album.spotify_id
     }
 }
