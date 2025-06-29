@@ -128,7 +128,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                     />
                     <Spotify
                         onChange={(event, target) => {setSpAlbum(target);}}
-                        required={false}
+                        renderInput={(params) => <TextField {...params} label="Search for an album" required={false} />}
                     />
                 </Box>
                 <br/>

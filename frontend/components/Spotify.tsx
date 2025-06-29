@@ -1,14 +1,13 @@
 'use client'
 
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
 import { SyntheticEvent, useState } from 'react';
 import { searchSpotify } from '@/app/actions';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 
 let timer : NodeJS.Timeout;
 
-export default function Spotify({ onChange, required }: { onChange : (event: SyntheticEvent, value: SimplifiedAlbum | null) => void, required : boolean }) {
+export default function Spotify({ onChange, renderInput }: { onChange : (event: SyntheticEvent, value: SimplifiedAlbum | null) => void, renderInput: (params: AutocompleteRenderInputParams) => React.ReactNode }) {
     const [_searchStr, setSearchStr] = useState('');
     const [_possibleAlbums, setPossibleAlbums] = useState<SimplifiedAlbum[]>([]);
 
@@ -30,13 +29,12 @@ export default function Spotify({ onChange, required }: { onChange : (event: Syn
                 setPossibleAlbums([]);
             }
         }}
-        renderInput={(params) => <TextField {...params} label="Search for an album" required={required} />}
+        renderInput={renderInput}
         options={_possibleAlbums}
         sx={{
             minWidth: '300px'
         }}
         getOptionLabel={(album : SimplifiedAlbum) => `${album.name} - ${album.artists[0].name}`}
         onChange={(event, value) => {onChange(event, value);}}
-        fullWidth
     />;
 }
