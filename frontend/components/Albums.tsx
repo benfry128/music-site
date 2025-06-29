@@ -126,18 +126,14 @@ export default function Albums( {albums} : { albums: Album[] }) {
                         sx={{ minWidth: 200}}
                         required
                         fullWidth
-                    >
-                        From
-                    </TextField>
+					/>
                     <TextField
                         label='Recommended By'
                         name='recommended_by'
                         sx={{ minWidth: 200}}
                         required
                         fullWidth
-                    >
-                        From
-                    </TextField>
+					/>
                 </Box>
             </DialogContent>
             <DialogActions>

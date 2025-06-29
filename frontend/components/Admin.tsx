@@ -159,9 +159,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                         sx={{ minWidth: 200}}
                         required
                         fullWidth
-                    >
-                        From
-                    </TextField>
+                    />
                 </Box>
                 <br/>
                 <TextField
@@ -169,9 +167,7 @@ export default function Admin( {albums} : { albums: Album[] }) {
                     name='favorite_song'
                     fullWidth
                     required
-                >
-                    Favorite Track
-                </TextField>
+                />
             </DialogContent>
             <DialogActions>
                 <Button type='submit'>Submit Review</Button>
