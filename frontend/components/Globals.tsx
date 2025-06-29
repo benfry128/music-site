@@ -36,8 +36,7 @@ function getDateFromString(dateString: string | null) {
     if (dateString === null) {
         return null
     }
-    const [year, month, day] = dateString.split('/').map((s) => parseInt(s));
-    return new Date(year, month, day);
+    return new Date(dateString);
 }
 
 export function convertBackendAlbum(album: BackendAlbum): Album {
