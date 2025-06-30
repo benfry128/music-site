@@ -126,7 +126,16 @@ export default function Albums( {albums} : { albums: Album[] }) {
 						renderInput={(params) => {
 							let helperText = '';
 							if (albumIsReviewed) {
-								helperText += `I reviewed this album on ${albumInDb.date_listened?.toLocaleDateString()}. `
+								if (albumInDb.date_listened! < new Date(2021, 5, 1)){
+									helperText += 'I listened to this album way before I started keeping track of my listening. ';
+								} else {
+									helperText += `I reviewed this album on ${albumInDb.date_listened!.toLocaleDateString()}`
+									if (albumInDb.date_listened! >= new Date(2022, 8, 14)) {
+										helperText += '. You can check out the review on Instagram. ';
+									} else {
+										helperText += ', before I started the Instagram account. ';
+									} 
+								}
 								switch (albumInDb.rating) {
 									case 0:
 										helperText += "I didn't really like it. ";
@@ -137,7 +146,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 									case 2:
 										helperText += 'I really liked it! ';
 								}
-								helperText += 'Check out the review on Instagram!';
+								helperText += "If you'd like me to re-review it, feel free to submit it again and I'll add it to the backlog. "
 							}
 							return <TextField 
 								{...params} 
