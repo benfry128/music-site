@@ -100,8 +100,6 @@ export default function Albums( {albums} : { albums: Album[] }) {
 					component: 'form',
 					onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
 						event.preventDefault();
-						// const formData = new FormData(event.currentTarget);
-						// const formJson = Object.fromEntries(formData.entries());
 						if (!_spAlbum) return false;
 						const album = {
                             title: _spAlbum.name,
@@ -152,7 +150,6 @@ export default function Albums( {albums} : { albums: Album[] }) {
 								{...params} 
 								label="Search for an album" 
 								required
-								// error={albumIsReviewed}
 								helperText={helperText}
 							/>;
 						}}
