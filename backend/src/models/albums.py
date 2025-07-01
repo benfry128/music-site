@@ -10,7 +10,6 @@ class Album:
     rating: int | None
     date_listened: str | None
     favorite_song: str | None
-    recommended_by: str | None
     ranking: int | None
     spotify_id: str | None
     url: str

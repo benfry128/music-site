@@ -30,7 +30,6 @@ const columns: GridColDef[] = [
 	{ field: 'rating', headerName: 'Rating', type: 'number', editable: true, minWidth: 50},
 	{ field: 'date_listened', headerName: 'Listened', type: 'date', editable: true, minWidth: 75},
 	{ field: 'favorite_song', headerName: 'Top Song', type: 'string', editable: true, minWidth: 175},
-	{ field: 'recommended_by', headerName: 'From', type: 'string', editable: true, minWidth: 75}, 
 	{ field: 'ranking', headerName: 'Ranking', type: 'number', editable: true, minWidth: 50},
 	{ field: 'queue_position', headerName: 'Queue', type: 'number', editable: true, minWidth: 50}
 ];

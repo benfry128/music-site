@@ -8,7 +8,6 @@ export interface Album {
     rating: number | null;
     date_listened: Date | null;
     favorite_song: string;
-    recommended_by: string;
     ranking: number | null; 
     queue_position: number | null;
     image_url: string;
@@ -24,7 +23,6 @@ export interface BackendAlbum {
     rating: string | null;
     date_listened: string | null;
     favorite_song: string;
-    recommended_by: string;
     ranking: string;
     queue_position: string | null;
     image_url: string;
@@ -48,7 +46,6 @@ export function convertBackendAlbum(album: BackendAlbum): Album {
         rating: parseInt(album.rating!),
         date_listened: getDateFromString(album.date_listened),
         favorite_song: album.favorite_song,
-        recommended_by: album.recommended_by,
         ranking: parseInt(album.ranking!),
         queue_position: parseInt(album.queue_position!),
         image_url: album.image_url,

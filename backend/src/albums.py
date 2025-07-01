@@ -16,11 +16,10 @@ def create_album_dao(album: list) -> Album:
         rating=album[5],
         date_listened=(album[6].strftime('%Y-%m-%d') + 'T00:00:00') if album[6] else None,
         favorite_song=album[7],
-        recommended_by=album[8],
-        ranking=album[9],
-        spotify_id=album[10],
-        queue_position=album[11],
-        url=album[12],
+        ranking=album[8],
+        spotify_id=album[9],
+        queue_position=album[10],
+        url=album[11],
     )
 
 @bp.before_request
@@ -66,7 +65,7 @@ def patch_album(album_id: int):
     if not g.cursor.fetchall():
         return jsonify(error = 'Not found'), 404
 
-    patchable_fields = ['title', 'artist', 'image_url', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended_by', 'ranking', 'queue_position']
+    patchable_fields = ['title', 'artist', 'image_url', 'date_released', 'rating', 'date_listened', 'favorite_song', 'ranking', 'queue_position']
     int_fields = ['rating', 'ranking', 'queue_position']
     date_fields = ['date_released', 'date_listened']
 
@@ -116,7 +115,7 @@ def post_album():
     if g.cursor.fetchall():
         return jsonify(error = 'Url already in db'), 400
     
-    postable_fields = ['title', 'artist', 'image_url', 'date_released', 'rating', 'date_listened', 'favorite_song', 'recommended_by', 'ranking', 'queue_position', 'spotify_id']
+    postable_fields = ['title', 'artist', 'image_url', 'date_released', 'rating', 'date_listened', 'favorite_song', 'ranking', 'queue_position', 'spotify_id']
     int_fields = ['rating', 'ranking', 'queue_position']
     date_fields = ['date_released', 'date_listened']
 
