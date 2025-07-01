@@ -51,3 +51,21 @@ export async function postAlbum(data: Partial<Album>) {
     }
     return 0;
 }
+
+
+export async function postNotes(postObject: { id: number, source: string, notes: string, }) {
+    const formData = new FormData();
+    Object.entries(postObject).forEach(([key, value]) => {
+        formData.append(key, value.toString());
+    })
+
+    const response = await fetch(`${API_URL}/albums/${postObject.id}/notes`, {
+        method: 'POST', 
+        body: formData
+    })
+
+    if (response.status !== 200){
+        return -1;
+    }
+    return 0;
+}

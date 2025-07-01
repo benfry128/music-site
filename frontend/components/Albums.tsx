@@ -22,7 +22,7 @@ import Spotify from './Spotify';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { postAlbum } from '@/app/actions';
 import TextField from '@mui/material/TextField';
-
+import { postNotes } from '@/app/actions';
 
 export default function Albums( {albums} : { albums: Album[] }) {
 	const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
@@ -100,18 +100,20 @@ export default function Albums( {albums} : { albums: Album[] }) {
 					component: 'form',
 					onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
 						event.preventDefault();
-						if (!_spAlbum) return false;
-						const album = {
-                            title: _spAlbum.name,
-                            artist: _spAlbum.artists[0].name,
-                            date_released: _spAlbum.release_date,
-                            image_url: _spAlbum.images[0].url,
-                            url: 'https://open.spotify.com/album/' + _spAlbum.id,
-                            spotify_id: _spAlbum.id, 
-                            ranking: 502
-                        }
-                        postAlbum(album);
-                        setNewAlbumDialogOpen(false);
+						const formData = new FormData(event.currentTarget);
+                        const formJson = Object.fromEntries(formData.entries());
+						console.log(formJson);
+
+						if (albumInDb) {
+							const notesObject = {
+								id: albumInDb.id,
+								source: formJson.source.toString(),
+								notes: formJson.notes.toString()
+							}
+							postNotes(notesObject)
+						}
+                        // postAlbum(album);
+                        // setNewAlbumDialogOpen(false);
 					}
 				}
 			}}

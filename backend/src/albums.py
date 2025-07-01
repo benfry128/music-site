@@ -147,3 +147,22 @@ def post_album():
     g.db.commit()
     
     return jsonify(message='success'), 200
+
+
+@bp.route('/<int:album_id>/notes', methods=['POST'])
+def post_notes(album_id: int):
+    notes = request.form.get('notes')
+    source = request.form.get('source')
+
+    if not source:
+        return jsonify(error = 'Source field empty'), 400
+
+    if notes:
+        if len(notes) >= 500:
+            return jsonify(error = 'Notes field too long'), 400
+        
+    g.cursor.execute('insert into album_notes (album_id, notes, source) values (%s, %s, %s);', [album_id, notes, source])
+
+    g.db.commit()
+    
+    return jsonify(message='success'), 200
