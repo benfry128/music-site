@@ -1,5 +1,5 @@
 'use server'
-import { API_URL } from '@/components/Globals';
+import { API_URL, convertBackendAlbum } from '@/components/Globals';
 import { Album } from '@/components/Globals';
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 
@@ -33,7 +33,7 @@ export async function searchSpotify(search: string) {
 }
 
 
-export async function postAlbum(data: Partial<Album>) {
+export async function postAlbum(data: Partial<Album>): Promise<Album | -1> {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
         const valueToAppend = value instanceof Date ? value.toISOString().slice(0, 10) : value;
@@ -49,7 +49,10 @@ export async function postAlbum(data: Partial<Album>) {
     if (response.status !== 200){
         return -1;
     }
-    return 0;
+
+    const r = await response.json();
+    
+    return convertBackendAlbum(r.album);
 }
 
 
