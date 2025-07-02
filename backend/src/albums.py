@@ -145,8 +145,11 @@ def post_album():
     g.cursor.execute(sql_stmt, sql_values)
 
     g.db.commit()
+
+    g.cursor.execute('select * from albums where url = %s;', [full_url])
+    album = create_album_dao(g.cursor.fetchall()[0])
     
-    return jsonify(message='success'), 200
+    return jsonify(album=album), 200
 
 
 @bp.route('/<int:album_id>/notes', methods=['POST'])
