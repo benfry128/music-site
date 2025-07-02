@@ -170,19 +170,22 @@ export default function Albums( {albums} : { albums: Album[] }) {
 						}}
                     />
                 </Box>
-                <Box m={1} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
+                <Box m={1}>
 					<TextField
-                        label='Name'
-                        name='recommended_by'
-                        sx={{ minWidth: 200}}
-                        required
+                        label='Name or Instagram handle'
+                        name='source'
+						required
                         fullWidth
 					/>
-                    <TextField
-                        label='Notes'
-                        name='recommended_by'
-                        sx={{ minWidth: 200}}
-                        fullWidth
+                </Box>
+				<Box m={1}>
+					<TextField
+						label='Notes'
+						name='notes'
+						fullWidth
+						multiline
+						helperText='What do you like about this album? Anything I should know before listening?'
+						slotProps={{ htmlInput: { maxLength: 499 } }}
 					/>
                 </Box>
             </DialogContent>
