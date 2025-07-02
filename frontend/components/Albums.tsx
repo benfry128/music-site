@@ -98,22 +98,35 @@ export default function Albums( {albums} : { albums: Album[] }) {
 			slotProps={{
 				paper: {
 					component: 'form',
-					onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+					onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
 						event.preventDefault();
 						const formData = new FormData(event.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
-						console.log(formJson);
-
-						if (albumInDb) {
-							const notesObject = {
-								id: albumInDb.id,
-								source: formJson.source.toString(),
-								notes: formJson.notes.toString()
+						let albumId = albumInDb?.id;
+						if (!albumInDb && _spAlbum) {
+							const postObject = {
+								title: _spAlbum.name,
+								artist: _spAlbum.artists[0].name,
+								date_released: _spAlbum.release_date + (_spAlbum.release_date_precision !== 'day' ? '-01' : '') + (_spAlbum.release_date_precision === 'year' ? '-01' : ''),
+								image_url: _spAlbum.images[0].url,
+								url: _spAlbum.external_urls.spotify,
+								spotify_id: _spAlbum.id,
+								ranking: 502
 							}
-							postNotes(notesObject)
+							const result = await postAlbum(postObject);
+							if (result === -1) {
+								return 'aH';
+							}
+							albumId = result.id;
 						}
-                        // postAlbum(album);
-                        // setNewAlbumDialogOpen(false);
+
+						const notesObject = {
+							id: albumId!,
+							source: formJson.source.toString(),
+							notes: formJson.notes.toString()
+						}
+						postNotes(notesObject);
+                        setNewAlbumDialogOpen(false);
 					}
 				}
 			}}
@@ -122,7 +135,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
             <DialogContent>
                 <Box m={1}>
                     <Spotify
-                        onChange={(event, target) => {setSpAlbum(target);}}
+                        onChange={(event, target) => setSpAlbum(target)}
 						renderInput={(params) => {
 							let helperText = '';
 							if (albumIsReviewed) {
