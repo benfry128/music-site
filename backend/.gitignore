@@ -3,4 +3,4 @@
 env.json
 .env
 .cache
-*.ps1
+/.idea
