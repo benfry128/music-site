@@ -4,11 +4,11 @@ export interface Album {
     id: number; 
     title: string;
     artist: string;
-    date_released: Date | string | null;
+    date_released: Date | string;
     rating: number | null;
     date_listened: Date | null;
     favorite_song: string;
-    ranking: number | null; 
+    ranking: number;
     queue_position: number | null;
     image_url: string;
     url: string;
@@ -42,12 +42,12 @@ export function convertBackendAlbum(album: BackendAlbum): Album {
         id: parseInt(album.id),
         title: album.title,
         artist: album.artist,
-        date_released: getDateFromString(album.date_released),
-        rating: parseInt(album.rating!),
+        date_released: new Date(album.date_released),
+        rating: album.rating === null ? null : parseInt(album.rating),
         date_listened: getDateFromString(album.date_listened),
         favorite_song: album.favorite_song,
-        ranking: parseInt(album.ranking!),
-        queue_position: parseInt(album.queue_position!),
+        ranking: parseInt(album.ranking),
+        queue_position: album.queue_position ? parseInt(album.queue_position) : null,
         image_url: album.image_url,
         url: album.url,
         spotify_id: album.spotify_id
