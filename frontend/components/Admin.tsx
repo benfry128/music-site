@@ -1,6 +1,13 @@
 'use client'
 
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridColDef,
+    GridComparatorFn,
+    gridNumberComparator,
+    gridDateComparator,
+    GridSortDirection
+} from '@mui/x-data-grid';
 import { Album } from '@/components/Globals';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
@@ -23,15 +30,33 @@ import React, { useState } from 'react';
 import Spotify from './Spotify';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 
+function generateNonNullComparator(comparator: GridComparatorFn): (sortDirection: GridSortDirection) => GridComparatorFn {
+    return function(sortDirection) {
+        const modifier = sortDirection === 'desc' ? -1 : 1;
+        return (value1, value2, cellParams1, cellParams2) => {
+            if (value1 === null) {
+                return 1;
+            }
+            if (value2 === null) {
+                return -1;
+            }
+            return (
+                modifier *
+                comparator(value1, value2, cellParams1, cellParams2)
+            );
+        };
+    }
+}
+
 const columns: GridColDef[] = [
 	{ field: 'title', headerName: 'Title', type: 'string', editable: true, minWidth: 275},
 	{ field: 'artist', headerName: 'Artist', type: 'string', editable: true, minWidth: 175},
 	{ field: 'date_released', headerName: 'Released', type: 'date', editable: true, minWidth: 100},
-	{ field: 'rating', headerName: 'Rating', type: 'number', editable: true, minWidth: 50},
-	{ field: 'date_listened', headerName: 'Listened', type: 'date', editable: true, minWidth: 75},
+	{ field: 'rating', headerName: 'Rating', type: 'number', editable: true, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
+	{ field: 'date_listened', headerName: 'Listened', type: 'date', editable: true, minWidth: 75, getSortComparator: generateNonNullComparator(gridDateComparator)},
 	{ field: 'favorite_song', headerName: 'Top Song', type: 'string', editable: true, minWidth: 175},
-	{ field: 'ranking', headerName: 'Ranking', type: 'number', editable: true, minWidth: 50},
-	{ field: 'queue_position', headerName: 'Queue', type: 'number', editable: true, minWidth: 50}
+	{ field: 'ranking', headerName: 'Ranking', type: 'number', editable: true, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
+	{ field: 'queue_position', headerName: 'Queue', type: 'number', editable: true, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)}
 ];
 
 export default function Admin( {albums} : { albums: Album[] }) {
@@ -71,6 +96,11 @@ export default function Admin( {albums} : { albums: Album[] }) {
                                 return originalRow;
                             }
                             return updatedRow;
+                        }}
+                        initialState={{
+                            sorting: {
+                                sortModel: [{field: 'ranking', sort: 'asc'}]
+                            }
                         }}
                     />
                 </>
