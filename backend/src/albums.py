@@ -163,7 +163,9 @@ def post_notes(album_id: int):
     if notes:
         if len(notes) >= 500:
             return jsonify(error = 'Notes field too long'), 400
-        
+    else:
+        notes = None
+
     g.cursor.execute('insert into album_notes (album_id, notes, source) values (%s, %s, %s);', [album_id, notes, source])
 
     g.db.commit()
