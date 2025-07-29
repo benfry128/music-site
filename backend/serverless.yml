@@ -17,6 +17,16 @@ custom:
 
 provider:
   name: aws
+  vpc:
+    securityGroupIds:
+      - sg-07346a9bec365e699
+    subnetIds:
+      - subnet-03b1a0533ac529873
+      - subnet-04b852657210affdb
+      - subnet-039f3c87afd9f4a02
+      - subnet-0de606814581f9497
+      - subnet-0ee720bf096c9cd2c
+      - subnet-0a4a7bda22ffc77fa
   runtime: python3.12
 
 functions:
