@@ -31,7 +31,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 	const queueAlbums = albums.filter((a) => a.queue_position).sort((a, b) => (a.queue_position! - b.queue_position!));
 
 	const albumInDb = _spAlbum ? albums.find((a) => a.spotify_id === _spAlbum.id) : null;
-	const albumIsReviewed = !!albumInDb && !Number.isNaN(albumInDb.rating);
+	const albumIsReviewed = !!albumInDb && albumInDb.rating == null;
 
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
@@ -140,7 +140,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 							let helperText = '';
 							if (albumIsReviewed) {
 								if (albumInDb.date_listened! < new Date(2021, 5, 1)){
-									helperText += 'I listened to this album way before I started keeping track of my listening. ';
+									helperText += 'I listened to this album before I started keeping track of my listening. ';
 								} else {
 									helperText += `I reviewed this album on ${albumInDb.date_listened!.toLocaleDateString()}`
 									if (albumInDb.date_listened! >= new Date(2022, 8, 14)) {
