@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { SiSpotify, SiSpotifyHex } from '@icons-pack/react-simple-icons';
@@ -13,7 +14,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
 import { Album } from '@/components/Globals';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -27,6 +28,8 @@ import { postNotes } from '@/app/actions';
 export default function Albums( {albums} : { albums: Album[] }) {
 	const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
 	const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
+    const [_toastOpen, setToastOpen] = useState(false);
+    const [_toastText, setToastText] = useState('');
 
 	const queueAlbums = albums.filter((a) => a.queue_position).sort((a, b) => (a.queue_position! - b.queue_position!));
 
@@ -37,7 +40,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 		<Stack direction="column" alignItems='center' spacing={3}>
 			<Typography variant='h3'>Albums</Typography>
 			<Button variant='outlined' onClick={() => setNewAlbumDialogOpen(true)}>Recommend an Album</Button>
-			<Typography maxWidth='50%'>Upcoming albums on my list:</Typography>
+			<Typography maxWidth='50%'>Upcoming albums on my list, not necessarily in order (!):</Typography>
 			<Swiper
 				effect={'coverflow'}
 				grabCursor={true}
@@ -115,7 +118,9 @@ export default function Albums( {albums} : { albums: Album[] }) {
 							}
 							const result = await postAlbum(postObject);
 							if (result === -1) {
-								return 'aH';
+                                setToastOpen(true);
+                                setToastText('An error occurred, please try again.');
+								return;
 							}
 							albumId = result.id;
 						}
@@ -125,8 +130,10 @@ export default function Albums( {albums} : { albums: Album[] }) {
 							source: formJson.source.toString(),
 							notes: formJson.notes.toString()
 						}
-						postNotes(notesObject);
+						await postNotes(notesObject);
                         setNewAlbumDialogOpen(false);
+                        setToastOpen(true);
+                        setToastText('Recommendation received. Thanks!');
 					}
 				}
 			}}
@@ -193,5 +200,11 @@ export default function Albums( {albums} : { albums: Album[] }) {
                 <Button type='submit'>Submit Album</Button>
             </DialogActions>
         </Dialog>
+        <Snackbar
+            open={_toastOpen}
+            autoHideDuration={6000}
+            onClose={() => setToastOpen(false)}
+            message={_toastText}
+        />
 	</Box>;
 }
