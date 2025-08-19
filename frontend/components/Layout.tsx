@@ -51,6 +51,7 @@ function Layout({children}: {children: React.ReactNode}) {
 				<Toolbar>
 					<Button href='./'>Home</Button>
 					<Button href='./albums'>Album Reviews</Button>
+                    <Button href='./db'>Database</Button>
 				</Toolbar>
 			</AppBar>
 			<main>{children}</main>
@@ -79,18 +80,13 @@ function Layout({children}: {children: React.ReactNode}) {
 			>
 				{links.map((link, index) => 
 					<IconButton
-					key={index}
-					href={link.href}
-					target='_blank'
+                        key={index}
+                        href={link.href}
+                        target='_blank'
 					>
 					{link.child}
 					</IconButton>
 				)}
-				<IconButton
-					href='./admin'
-				>
-					<MenuIcon fontSize='large'/>
-				</IconButton>
 			</Drawer>
 		</LocalizationProvider>
 	</ThemeProvider>;
