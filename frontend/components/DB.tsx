@@ -48,18 +48,8 @@ function generateNonNullComparator(comparator: GridComparatorFn): (sortDirection
     }
 }
 
-const columns: GridColDef[] = [
-	{ field: 'title', headerName: 'Title', type: 'string', editable: true, minWidth: 275},
-	{ field: 'artist', headerName: 'Artist', type: 'string', editable: true, minWidth: 175},
-	{ field: 'date_released', headerName: 'Released', type: 'date', editable: true, minWidth: 100},
-	{ field: 'rating', headerName: 'Rating', type: 'number', editable: true, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
-	{ field: 'date_listened', headerName: 'Listened', type: 'date', editable: true, minWidth: 75, getSortComparator: generateNonNullComparator(gridDateComparator)},
-	{ field: 'favorite_song', headerName: 'Top Song', type: 'string', editable: true, minWidth: 175},
-	{ field: 'ranking', headerName: 'Ranking', type: 'number', editable: true, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
-	{ field: 'queue_position', headerName: 'Queue', type: 'number', editable: true, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)}
-];
 
-export default function Admin( {albums} : { albums: Album[] }) {
+export default function DB( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
     const [_reviewDialogOpen, setReviewDialogOpen] = useState(false);
     const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
@@ -69,42 +59,53 @@ export default function Admin( {albums} : { albums: Album[] }) {
         setReviewDialogOpen(false);
     }
 
+    const correctPassword = _password === process.env.NEXT_PUBLIC_ADMIN_PW;
+
+    const columns: GridColDef[] = [
+        { field: 'title', headerName: 'Title', type: 'string', editable: correctPassword, minWidth: 275},
+        { field: 'artist', headerName: 'Artist', type: 'string', editable: correctPassword, minWidth: 175},
+        { field: 'date_released', headerName: 'Released', type: 'date', editable: correctPassword, minWidth: 100},
+        { field: 'rating', headerName: 'Rating', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
+        { field: 'date_listened', headerName: 'Listened', type: 'date', editable: correctPassword, minWidth: 75, getSortComparator: generateNonNullComparator(gridDateComparator)},
+        { field: 'favorite_song', headerName: 'Top Song', type: 'string', editable: correctPassword, minWidth: 175},
+        { field: 'ranking', headerName: 'Ranking', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
+        { field: 'queue_position', headerName: 'Queue', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)}
+    ];
+
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <Stack direction="column" alignItems='center' spacing={3}>
             <Typography variant='h3'>
-                Admin
+                Albums Database
             </Typography>
-            {_password !== process.env.NEXT_PUBLIC_ADMIN_PW ?
-                <TextField
+            <Typography>This is the full database of albums I&#39;ve reviewed or plan to review in the future. Take a look!</Typography>
+            <DataGrid
+                rows={albums}
+                columns={columns}
+                showToolbar
+                processRowUpdate={async (updatedRow: Album, originalRow: Album) => {
+                    const patchError = await patchAlbum(updatedRow);
+                    if (patchError) {
+                        return originalRow;
+                    }
+                    return updatedRow;
+                }}
+                initialState={{
+                    sorting: {
+                        sortModel: [{field: 'title', sort: 'asc'}]
+                    }
+                }}
+            />
+            {correctPassword ?
+                <Button variant='outlined' onClick={() => setReviewDialogOpen(true)}>Review Album</Button>
+                : <TextField
                     label='Enter password'
                     value={_password}
                     onChange={(e) => {
                         setPassword(e.target.value);
                     }}
                 />
-				: <>
-                    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
-                        <Button variant='outlined' onClick={() => setReviewDialogOpen(true)}>Review Album</Button>
-                    </Box>
-                    <DataGrid
-                        rows={albums}
-                        columns={columns}
-                        showToolbar
-                        processRowUpdate={ async (updatedRow: Album, originalRow: Album) => {
-                            const patchError = await patchAlbum(updatedRow);
-                            if (patchError) {
-                                return originalRow;
-                            }
-                            return updatedRow;
-                        }}
-                        initialState={{
-                            sorting: {
-                                sortModel: [{field: 'ranking', sort: 'asc'}]
-                            }
-                        }}
-                    />
-                </>
             }
+            <Typography></Typography>
         </Stack>
         <Dialog
             onClose={closeDialogs}
