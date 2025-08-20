@@ -34,7 +34,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 	const queueAlbums = albums.filter((a) => a.queue_position).sort((a, b) => (a.queue_position! - b.queue_position!));
 
 	const albumInDb = _spAlbum ? albums.find((a) => a.spotify_id === _spAlbum.id) : null;
-	const albumIsReviewed = !!albumInDb && albumInDb.rating == null;
+	const albumIsReviewed = !!albumInDb && albumInDb.rating != null;
 
 	return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
 		<Stack direction="column" alignItems='center' spacing={3}>
