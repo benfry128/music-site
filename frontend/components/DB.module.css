@@ -1,0 +1,11 @@
+@media (width < 1200px) {
+    .bigOnly {
+        display: none;
+    }
+}
+
+@media (width > 1200px) {
+    .smallOnly {
+        display: none;
+    }
+}
