@@ -1,0 +1,64 @@
+@media (aspect-ratio <= 4/3) {
+    .text{
+        max-width: 80%;
+    }
+
+    .swiper {
+        width: 95vw;
+        height: 95vw;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .swiperSlide {
+        width: 75vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiperImage{
+        display: block;
+        width: 75vw;
+        height: 75vw;
+        border-radius: 4px;
+    }
+
+    .imageListItem{
+        width: 75vw;
+        height: 75vw;
+    }
+}
+
+@media (aspect-ratio >= 4/3) {
+    .text{
+        max-width: 50%;
+    }
+
+    .swiper {
+        width: 75vw;
+        height: 30vw;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .swiperSlide {
+        width: 25vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiperImage{
+        display: block;
+        width: 25vw;
+        height: 25vw;
+        border-radius: 4px;
+    }
+
+    .imageListItem{
+        width: 25vw;
+        height: 25vw;
+    }
+}
+

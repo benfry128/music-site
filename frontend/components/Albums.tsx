@@ -24,6 +24,10 @@ import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { postAlbum } from '@/app/actions';
 import TextField from '@mui/material/TextField';
 import { postNotes } from '@/app/actions';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import styles from './Albums.module.css';
+
 
 export default function Albums( {albums} : { albums: Album[] }) {
 	const [_newAlbumDialogOpen, setNewAlbumDialogOpen] = useState(false);
@@ -40,7 +44,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 		<Stack direction="column" alignItems='center' spacing={3}>
 			<Typography variant='h3'>Albums</Typography>
 			<Button variant='outlined' onClick={() => setNewAlbumDialogOpen(true)}>Recommend an Album</Button>
-			<Typography maxWidth='50%'>Upcoming albums on my list, not necessarily in order (!):</Typography>
+			<Typography align='center' className={styles.text}>Upcoming albums on my list, not necessarily in order (!):</Typography>
 			<Swiper
 				effect={'coverflow'}
 				grabCursor={true}
@@ -55,21 +59,22 @@ export default function Albums( {albums} : { albums: Album[] }) {
 					slideShadows: false
 				}}
 				modules={[EffectCoverflow]}
+                className={styles.swiper}
 			>
 				{queueAlbums.map((album: Album) => 
-					<SwiperSlide key={album.id}>
+					<SwiperSlide
+                        key={album.id}
+                        className={styles.swiperSlide}
+                    >
 						<ImageListItem
-							sx={{
-								width: '25vw',
-								height: '25vw',
-							}}
+                            className={styles.imageListItem}
 						>
 							<Image 
 								src={album.image_url} 
 								height={640}
 								width={640}
 								alt='HI'
-								className='swiper-image'
+								className={styles.swiperImage}
 							/>
 							<ImageListItemBar
 								title={album.title}
@@ -77,12 +82,12 @@ export default function Albums( {albums} : { albums: Album[] }) {
 								sx={{ background: 'rgba(0,0,0)' }}
 								position='below'
 								actionIcon={
-								<IconButton
-									href={album.url}
-									target='_blank'
-								>
-									<SiSpotify color={SiSpotifyHex} size='36' />
-								</IconButton>
+                                    <IconButton
+                                        href={album.url}
+                                        target='_blank'
+                                    >
+                                        <SiSpotify color={SiSpotifyHex} size='36' />
+                                    </IconButton>
 								}
 							/>
 						</ImageListItem>
