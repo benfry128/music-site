@@ -31,10 +31,8 @@ export default function Spotify({ onChange, renderInput }: { onChange : (event: 
         }}
         renderInput={renderInput}
         options={_possibleAlbums}
-        sx={{
-            minWidth: '300px'
-        }}
         getOptionLabel={(album : SimplifiedAlbum) => `${album.name} - ${album.artists[0].name}`}
         onChange={(event, value) => {onChange(event, value);}}
+        fullWidth
     />;
 }
