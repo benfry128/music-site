@@ -145,7 +145,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
         >
             <DialogTitle>Recommend an Album</DialogTitle>
             <DialogContent>
-                <Box m={1}>
+                <Box mt={1}>
                     <Spotify
                         onChange={(event, target) => setSpAlbum(target)}
 						renderInput={(params) => {
@@ -182,27 +182,26 @@ export default function Albums( {albums} : { albums: Album[] }) {
 						}}
                     />
                 </Box>
-                <Box m={1}>
-					<TextField
+                <Box mt={1} mb={1}>
+                    <TextField
                         label='Name or Instagram handle'
                         name='source'
-						required
+                        required
                         fullWidth
-					/>
+                        slotProps={{ htmlInput: { maxLength: 44 } }}
+                    />
                 </Box>
-				<Box m={1}>
-					<TextField
-						label='Notes'
-						name='notes'
-						fullWidth
-						multiline
-						helperText='What do you like about this album? Anything I should know before listening?'
-						slotProps={{ htmlInput: { maxLength: 499 } }}
-					/>
-                </Box>
+                <TextField
+                    label='Notes'
+                    name='notes'
+                    fullWidth
+                    multiline
+                    helperText='What do you like about this album? What should I know before listening?'
+                    slotProps={{ htmlInput: { maxLength: 499 } }}
+                />
             </DialogContent>
             <DialogActions>
-                <Button type='submit'>Submit Album</Button>
+                <Button type='submit'>Submit</Button>
             </DialogActions>
         </Dialog>
         <Snackbar
