@@ -1,0 +1,11 @@
+@media (aspect-ratio <= 1) {
+    .text{
+        max-width: 80%;
+    }
+}
+
+@media (aspect-ratio >= 1) {
+    .text{
+        max-width: 50%;
+    }
+}
