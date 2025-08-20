@@ -18,6 +18,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import GitHub from '@mui/icons-material/GitHub';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import styles from './Layout.module.css';
 
 const darkTheme = createTheme({
   palette: {
@@ -51,7 +52,9 @@ function Layout({children}: {children: React.ReactNode}) {
 				<Toolbar>
 					<Button href='./'>Home</Button>
 					<Button href='./albums'>Album Reviews</Button>
-                    <Button href='./db'>Database</Button>
+                    <div className={styles.bigOnly}>
+                        <Button href='./db' className={styles.bigOnly}>Database</Button>
+                    </div>
 				</Toolbar>
 			</AppBar>
 			<main>{children}</main>
