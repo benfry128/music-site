@@ -85,7 +85,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
                                         href={album.url}
                                         target='_blank'
                                     >
-                                        <Image src='/spotify_green.svg' alt={'green Spotify logo'} width='525' height='525' objectFit='cover' className={styles.spotify}/>
+                                        <Image src='/spotify_green.svg' alt={'green Spotify logo'} width='525' height='525' className={styles.spotify}/>
                                     </IconButton>
 								}
 							/>
