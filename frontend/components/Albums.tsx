@@ -8,7 +8,6 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { SiSpotify, SiSpotifyHex } from '@icons-pack/react-simple-icons';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
@@ -86,7 +85,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
                                         href={album.url}
                                         target='_blank'
                                     >
-                                        <SiSpotify color={SiSpotifyHex} size='36' />
+                                        <Image src='/spotify_green.svg' alt={'green Spotify logo'} width='525' height='525' objectFit='cover' className={styles.spotify}/>
                                     </IconButton>
 								}
 							/>

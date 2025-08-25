@@ -3,3 +3,8 @@
         display: none;
     }
 }
+
+.spotify {
+    max-width: 36px;
+    max-height: 36px;
+}

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react';
-import { SiSpotify } from '@icons-pack/react-simple-icons';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import AppBar from "@mui/material/AppBar";
@@ -10,6 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import Fab from "@mui/material/Fab";
 import IconButton from "@mui/material/IconButton";
+import Image from 'next/image';
 import Toolbar from "@mui/material/Toolbar";
 
 import { orange } from "@mui/material/colors";
@@ -38,7 +38,7 @@ const links = [
 	},
 	{
 		href: 'https://open.spotify.com/user/31tnaej2hznzuj25tx2p2lf7p4xy',
-		child: <SiSpotify size={32}/>
+		child: <Image src='/spotify_green.svg' alt={'green Spotify logo'} width='525' height='525' objectFit='cover' className={styles.spotify}/>
 	},
 ];
 
