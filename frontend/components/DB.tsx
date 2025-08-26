@@ -101,6 +101,7 @@ export default function DB( {albums} : { albums: Album[] }) {
                 {correctPassword ?
                     <Button variant='outlined' onClick={() => setReviewDialogOpen(true)}>Review Album</Button>
                     : <TextField
+                        type='password'
                         label='Enter password'
                         value={_password}
                         onChange={(e) => {
