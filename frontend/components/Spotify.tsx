@@ -31,7 +31,7 @@ export default function Spotify({ onChange, renderInput }: { onChange : (event: 
         }}
         renderInput={renderInput}
         options={_possibleAlbums}
-        getOptionLabel={(album : SimplifiedAlbum) => `${album.name} - ${album.artists[0].name}`}
+        getOptionLabel={(album : SimplifiedAlbum) => `${album.name} - ${album.artists[0].name} - ${album.release_date.substring(0, 4)}`}
         onChange={(event, value) => {onChange(event, value);}}
         fullWidth
     />;
