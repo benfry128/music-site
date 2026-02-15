@@ -130,8 +130,7 @@ export default function DB( {albums} : { albums: Album[] }) {
                                     date_released: _spAlbum.release_date + (_spAlbum.release_date_precision !== 'day' ? '-01' : '') + (_spAlbum.release_date_precision === 'year' ? '-01' : ''),
                                     image_url: _spAlbum.images[0].url,
                                     url: 'https://open.spotify.com/album/' + _spAlbum.id,
-                                    spotify_id: _spAlbum.id,
-                                    ranking: 502
+                                    spotify_id: _spAlbum.id
                                 }
                                 postAlbum(album);
                             } else {

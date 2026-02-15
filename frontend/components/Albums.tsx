@@ -117,8 +117,7 @@ export default function Albums( {albums} : { albums: Album[] }) {
 								date_released: _spAlbum.release_date + (_spAlbum.release_date_precision !== 'day' ? '-01' : '') + (_spAlbum.release_date_precision === 'year' ? '-01' : ''),
 								image_url: _spAlbum.images[0].url,
 								url: _spAlbum.external_urls.spotify,
-								spotify_id: _spAlbum.id,
-								ranking: 502
+								spotify_id: _spAlbum.id
 							}
 							const result = await postAlbum(postObject);
 							if (result === -1) {
