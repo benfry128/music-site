@@ -49,6 +49,7 @@ function generateNonNullComparator(comparator: GridComparatorFn): (sortDirection
     }
 }
 
+const utcDateToLocal = (date: Date | null) => date ? new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) : null;
 
 export default function DB( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
@@ -65,9 +66,9 @@ export default function DB( {albums} : { albums: Album[] }) {
     const columns: GridColDef[] = [
         { field: 'title', headerName: 'Title', type: 'string', editable: correctPassword, minWidth: 275},
         { field: 'artist', headerName: 'Artist', type: 'string', editable: correctPassword, minWidth: 175},
-        { field: 'date_released', headerName: 'Released', type: 'date', editable: correctPassword, minWidth: 100},
+        { field: 'date_released', headerName: 'Released', type: 'date', editable: correctPassword, minWidth: 100, valueGetter: utcDateToLocal},
         { field: 'rating', headerName: 'Rating', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
-        { field: 'date_listened', headerName: 'Listened', type: 'date', editable: correctPassword, minWidth: 75, getSortComparator: generateNonNullComparator(gridDateComparator)},
+        { field: 'date_listened', headerName: 'Listened', type: 'date', editable: correctPassword, minWidth: 75, getSortComparator: generateNonNullComparator(gridDateComparator), valueGetter: utcDateToLocal },
         { field: 'favorite_song', headerName: 'Top Song', type: 'string', editable: correctPassword, minWidth: 175},
         { field: 'ranking', headerName: 'Ranking', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
         { field: 'queue_position', headerName: 'Queue', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)}
