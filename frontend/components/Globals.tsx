@@ -30,11 +30,16 @@ export interface BackendAlbum {
     spotify_id: string | null;
 }
 
+function stringToDate(dateString: string) {
+    const segments = dateString.split('-');
+    return new Date(parseInt(segments[0]), parseInt(segments[1]), parseInt(segments[2]));
+}
+
 function getDateFromString(dateString: string | null) {
     if (dateString === null) {
         return null
     }
-    return new Date(dateString);
+    return stringToDate(dateString);
 }
 
 export function convertBackendAlbum(album: BackendAlbum): Album {
@@ -42,7 +47,7 @@ export function convertBackendAlbum(album: BackendAlbum): Album {
         id: parseInt(album.id),
         title: album.title,
         artist: album.artist,
-        date_released: new Date(album.date_released),
+        date_released: stringToDate(album.date_released),
         rating: album.rating === null ? null : parseInt(album.rating),
         date_listened: getDateFromString(album.date_listened),
         favorite_song: album.favorite_song,
