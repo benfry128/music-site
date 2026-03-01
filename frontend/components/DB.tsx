@@ -187,20 +187,12 @@ export default function DB( {albums} : { albums: Album[] }) {
                             name='date_listened'
                             format='YYYY-MM-DD'
                         />
-                        <TextField
-                            label='Recommended By'
-                            name='recommended_by'
-                            sx={{ minWidth: 200}}
-                            required
-                            fullWidth
-                        />
                     </Box>
                     <br/>
                     <TextField
                         label='Favorite Song'
                         name='favorite_song'
                         fullWidth
-                        required
                     />
                 </DialogContent>
                 <DialogActions>
