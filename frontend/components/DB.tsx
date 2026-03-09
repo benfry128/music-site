@@ -9,6 +9,10 @@ import {
     GridSortDirection
 } from '@mui/x-data-grid';
 import { Album } from '@/components/Globals';
+import Accordion from '@mui/material/Accordion'
+import AccordionActions from '@mui/material/AccordionActions';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -55,6 +59,7 @@ export default function DB( {albums} : { albums: Album[] }) {
     const [_password, setPassword] = useState('');
     const [_reviewDialogOpen, setReviewDialogOpen] = useState(false);
     const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
+    const [_mobileSearchText, setMobileSearchText] = useState('');
 
     function closeDialogs() {
         setSpAlbum(null);
@@ -73,6 +78,13 @@ export default function DB( {albums} : { albums: Album[] }) {
         { field: 'ranking', headerName: 'Ranking', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)},
         { field: 'queue_position', headerName: 'Queue', type: 'number', editable: correctPassword, minWidth: 50, getSortComparator: generateNonNullComparator(gridNumberComparator)}
     ];
+
+    const sortedAlbums = _mobileSearchText ?
+        albums.filter((a) =>
+            _mobileSearchText.toLowerCase().split(' ')
+                .every((substr) =>
+                    a.artist.toLowerCase().includes(substr) || a.title.toLowerCase().includes(substr)))
+        : [];
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
         <div className={styles.bigOnly}>
@@ -203,7 +215,31 @@ export default function DB( {albums} : { albums: Album[] }) {
         <div className={styles.smallOnly}>
             <Stack direction="column" alignItems='center' spacing={3}>
                 <Typography align='center' variant='h3' maxWidth='90%'>Albums Database</Typography>
-                <Typography align='center' maxWidth='80%'>The database doesn&#39;t display very well on smaller screens. Please try using a larger device. Sorry!</Typography>
+                <TextField
+                    label='Search for an album'
+                    name='source'
+                    value={_mobileSearchText}
+                    onChange={(e) => setMobileSearchText(e.target.value)}
+                    slotProps={{ htmlInput: { maxLength: 44 } }}
+                />
+                <Stack direction="column" alignItems='stretch'>
+                    {sortedAlbums.map((a) =>
+                        <Accordion
+                            key={a.id}
+                            disableGutters
+                            sx={{width: '90%', minWidth: '90%'}}
+                        >
+                            <AccordionSummary
+                                sx={{width: '100%', minWidth: '100%' }}
+                            >
+                                <Typography>{a.title} - {a.artist}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography>HAHAHHAHAHh</Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                    )}
+                </Stack>
             </Stack>
         </div>
     </Box>;
