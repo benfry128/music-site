@@ -49,9 +49,7 @@ function Layout({children}: {children: React.ReactNode}) {
 				<Toolbar>
 					<Button href='./'>Home</Button>
 					<Button href='./albums'>Album Reviews</Button>
-                    <div className={styles.bigOnly}>
-                        <Button href='./db' className={styles.bigOnly}>Database</Button>
-                    </div>
+					<Button href='./db' className={styles.bigOnly}>Database</Button>
 				</Toolbar>
 			</AppBar>
 			<main>{children}</main>
