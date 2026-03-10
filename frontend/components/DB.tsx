@@ -33,7 +33,6 @@ import { patchAlbum, postAlbum } from '@/app/actions';
 import React, { useState } from 'react';
 import Spotify from './Spotify';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
-import styles from './DB.module.css';
 
 function generateNonNullComparator(comparator: GridComparatorFn): (sortDirection: GridSortDirection) => GridComparatorFn {
     return function(sortDirection) {
@@ -87,7 +86,7 @@ export default function DB( {albums} : { albums: Album[] }) {
         : [];
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-        <div className={styles.bigOnly}>
+        {window.innerWidth > 1200 ?
             <Stack direction="column" alignItems='center' spacing={3}>
                 <Typography align='center' variant='h3'>Albums Database</Typography>
                 <Typography align='center'>This is the full database of albums I&#39;ve reviewed or plan to review in the future. Take a look!</Typography>
@@ -122,99 +121,98 @@ export default function DB( {albums} : { albums: Album[] }) {
                         }}
                     />
                 }
+                <Dialog
+                    onClose={closeDialogs}
+                    open={_reviewDialogOpen}
+                    slotProps={{
+                        paper: {
+                            component: 'form',
+                            onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+                                event.preventDefault();
+                                const formData = new FormData(event.currentTarget);
+                                const formJson = Object.fromEntries(formData.entries());
+                                if (_spAlbum) {
+                                    const album = {
+                                        ...formJson,
+                                        title: _spAlbum.name,
+                                        artist: _spAlbum.artists[0].name,
+                                        date_released: _spAlbum.release_date + (_spAlbum.release_date_precision !== 'day' ? '-01' : '') + (_spAlbum.release_date_precision === 'year' ? '-01' : ''),
+                                        image_url: _spAlbum.images[0].url,
+                                        url: 'https://open.spotify.com/album/' + _spAlbum.id,
+                                        spotify_id: _spAlbum.id
+                                    }
+                                    postAlbum(album);
+                                } else {
+                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                    const { album: _, ...patchObject} = { //remove album from object to send to patchAlbum
+                                        ...formJson,
+                                        id: parseInt(formJson.album.toString().split(' ').slice(-1)[0]),
+                                        queue_position: null,
+                                        album: null
+                                    };
+                                    patchAlbum(patchObject);
+                                }
+                                closeDialogs();
+                            }
+                        }
+                    }}
+                    fullWidth
+                    maxWidth='md'
+                >
+                    <DialogTitle>Review Album</DialogTitle>
+                    <DialogContent>
+                        <Box pt={1} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
+                            <Autocomplete
+                                options={albums ? albums.filter((album) => album.rating === null): []}
+                                renderInput={(params) => <TextField {...params} label='Album' name='album' required/>}
+                                getOptionLabel={(album) => `${album.title} - ${album.artist} - ${album.id}`}
+                                fullWidth
+                                disabled={!!_spAlbum}
+                            />
+                            <Spotify
+                                onChange={(event, target) => {setSpAlbum(target);}}
+                                renderInput={(params) => <TextField {...params} label="Search for an album" required={false} />}
+                            />
+                        </Box>
+                        <br/>
+                        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
+                            <FormControl fullWidth required>
+                                <InputLabel>Rating</InputLabel>
+                                <Select
+                                    name='rating'
+                                    label='Rating'
+                                    defaultValue=''
+                                >
+                                    <MenuItem value=''>None</MenuItem>
+                                    <MenuItem value={0}>0</MenuItem>
+                                    <MenuItem value={1}>1</MenuItem>
+                                    <MenuItem value={2}>2</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <DatePicker
+                                label='Date Listened'
+                                defaultValue={dayjs()}
+                                sx={{ minWidth: 200}}
+                                name='date_listened'
+                                format='YYYY-MM-DD'
+                            />
+                        </Box>
+                        <br/>
+                        <TextField
+                            label='Favorite Song'
+                            name='favorite_song'
+                            fullWidth
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button type='submit'>Submit Review</Button>
+                    </DialogActions>
+                </Dialog>
                 <br/>
             </Stack>
-            <Dialog
-                onClose={closeDialogs}
-                open={_reviewDialogOpen}
-                slotProps={{
-                    paper: {
-                        component: 'form',
-                        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-                            event.preventDefault();
-                            const formData = new FormData(event.currentTarget);
-                            const formJson = Object.fromEntries(formData.entries());
-                            if (_spAlbum) {
-                                const album = {
-                                    ...formJson,
-                                    title: _spAlbum.name,
-                                    artist: _spAlbum.artists[0].name,
-                                    date_released: _spAlbum.release_date + (_spAlbum.release_date_precision !== 'day' ? '-01' : '') + (_spAlbum.release_date_precision === 'year' ? '-01' : ''),
-                                    image_url: _spAlbum.images[0].url,
-                                    url: 'https://open.spotify.com/album/' + _spAlbum.id,
-                                    spotify_id: _spAlbum.id
-                                }
-                                postAlbum(album);
-                            } else {
-                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                const { album: _, ...patchObject} = { //remove album from object to send to patchAlbum
-                                    ...formJson,
-                                    id: parseInt(formJson.album.toString().split(' ').slice(-1)[0]),
-                                    queue_position: null,
-                                    album: null
-                                };
-                                patchAlbum(patchObject);
-                            }
-                            closeDialogs();
-                        }
-                    }
-                }}
-                fullWidth
-                maxWidth='md'
-            >
-                <DialogTitle>Review Album</DialogTitle>
-                <DialogContent>
-                    <Box pt={1} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
-                        <Autocomplete
-                            options={albums ? albums.filter((album) => album.rating === null): []}
-                            renderInput={(params) => <TextField {...params} label='Album' name='album' required/>}
-                            getOptionLabel={(album) => `${album.title} - ${album.artist} - ${album.id}`}
-                            fullWidth
-                            disabled={!!_spAlbum}
-                        />
-                        <Spotify
-                            onChange={(event, target) => {setSpAlbum(target);}}
-                            renderInput={(params) => <TextField {...params} label="Search for an album" required={false} />}
-                        />
-                    </Box>
-                    <br/>
-                    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px'}}>
-                        <FormControl fullWidth required>
-                            <InputLabel>Rating</InputLabel>
-                            <Select
-                                name='rating'
-                                label='Rating'
-                                defaultValue=''
-                            >
-                                <MenuItem value=''>None</MenuItem>
-                                <MenuItem value={0}>0</MenuItem>
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <DatePicker
-                            label='Date Listened'
-                            defaultValue={dayjs()}
-                            sx={{ minWidth: 200}}
-                            name='date_listened'
-                            format='YYYY-MM-DD'
-                        />
-                    </Box>
-                    <br/>
-                    <TextField
-                        label='Favorite Song'
-                        name='favorite_song'
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button type='submit'>Submit Review</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-        <div className={styles.smallOnly}>
-            <Stack direction="column" alignItems='center' spacing={3}>
+        : <Stack direction="column" alignItems='center'>
                 <Typography align='center' variant='h3' maxWidth='90%'>Albums Database</Typography>
+                <br/>
                 <TextField
                     label='Search for an album'
                     name='source'
@@ -222,25 +220,24 @@ export default function DB( {albums} : { albums: Album[] }) {
                     onChange={(e) => setMobileSearchText(e.target.value)}
                     slotProps={{ htmlInput: { maxLength: 44 } }}
                 />
-                <Stack direction="column" alignItems='stretch'>
-                    {sortedAlbums.map((a) =>
-                        <Accordion
-                            key={a.id}
-                            disableGutters
-                            sx={{width: '90%', minWidth: '90%'}}
+                <br/>
+                {sortedAlbums.map((a) =>
+                    <Accordion
+                        key={a.id}
+                        disableGutters
+                        sx={{width: '90%', minWidth: '90%'}}
+                    >
+                        <AccordionSummary
+                            sx={{width: '100%', minWidth: '100%' }}
                         >
-                            <AccordionSummary
-                                sx={{width: '100%', minWidth: '100%' }}
-                            >
-                                <Typography>{a.title} - {a.artist}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>HAHAHHAHAHh</Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    )}
-                </Stack>
+                            <Typography>{a.title} - {a.artist}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>HAHAHHAHAHh</Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                )}
             </Stack>
-        </div>
+        }
     </Box>;
 }
