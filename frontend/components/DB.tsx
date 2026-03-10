@@ -86,7 +86,7 @@ export default function DB( {albums} : { albums: Album[] }) {
         : [];
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-        {window.innerWidth > 1200 ?
+        {typeof window !== 'undefined' && window.innerWidth > 1200 ?
             <Stack direction="column" alignItems='center' spacing={3}>
                 <Typography align='center' variant='h3'>Albums Database</Typography>
                 <Typography align='center'>This is the full database of albums I&#39;ve reviewed or plan to review in the future. Take a look!</Typography>
