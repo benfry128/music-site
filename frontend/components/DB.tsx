@@ -59,6 +59,7 @@ export default function DB( {albums} : { albums: Album[] }) {
     const [_reviewDialogOpen, setReviewDialogOpen] = useState(false);
     const [_spAlbum, setSpAlbum] = useState<SimplifiedAlbum | null>(null);
     const [_mobileSearchText, setMobileSearchText] = useState('');
+    const [_mobileDisplayNum, setMobileDisplayNum] = useState(10);
 
     function closeDialogs() {
         setSpAlbum(null);
@@ -217,11 +218,14 @@ export default function DB( {albums} : { albums: Album[] }) {
                     label='Search for an album'
                     name='source'
                     value={_mobileSearchText}
-                    onChange={(e) => setMobileSearchText(e.target.value)}
+                    onChange={(e) => {
+                        setMobileSearchText(e.target.value);
+                        setMobileDisplayNum(10);
+                    }}
                     slotProps={{ htmlInput: { maxLength: 44 } }}
                 />
                 <br/>
-                {sortedAlbums.map((a) =>
+                {sortedAlbums.slice(0, _mobileDisplayNum).map((a) =>
                     <Accordion
                         key={a.id}
                         disableGutters
@@ -237,6 +241,11 @@ export default function DB( {albums} : { albums: Album[] }) {
                         </AccordionDetails>
                     </Accordion>
                 )}
+                <br/>
+                {sortedAlbums.length > _mobileDisplayNum &&
+                    <Button variant='outlined' onClick={() => setMobileDisplayNum((p) => p + 10)}>Display More Albums</Button>
+                }
+                <br/>
             </Stack>
         }
     </Box>;
