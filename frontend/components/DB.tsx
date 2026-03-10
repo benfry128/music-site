@@ -32,6 +32,8 @@ import { patchAlbum, postAlbum } from '@/app/actions';
 import React, { useState } from 'react';
 import Spotify from './Spotify';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
+import Image from "next/image";
+import styles from "@/components/DB.module.css";
 
 function generateNonNullComparator(comparator: GridComparatorFn): (sortDirection: GridSortDirection) => GridComparatorFn {
     return function(sortDirection) {
@@ -224,22 +226,45 @@ export default function DB( {albums} : { albums: Album[] }) {
                     slotProps={{ htmlInput: { maxLength: 44 } }}
                 />
                 <br/>
-                {sortedAlbums.slice(0, _mobileDisplayNum).map((a) =>
-                    <Accordion
+                {sortedAlbums.slice(0, _mobileDisplayNum).map((a) => {
+                    const date_released = a.date_released as Date;
+                    const date_listened = a.date_listened as Date;
+
+                    return <Accordion
                         key={a.id}
                         disableGutters
                         sx={{width: '90%', minWidth: '90%'}}
                     >
-                        <AccordionSummary
-                            sx={{width: '100%', minWidth: '100%' }}
-                        >
+                        <AccordionSummary>
                             <Typography>{a.title} - {a.artist}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>HAHAHHAHAHh</Typography>
+                            <Stack
+                                direction='row'
+                                spacing={2}
+                            >
+                                <Image
+                                    src={a.image_url}
+                                    height={640}
+                                    width={640}
+                                    alt='HI'
+                                    className={styles.cover}
+                                />
+                                <Stack>
+                                    <Typography>Released: <b>{date_released.getFullYear()}</b></Typography>
+                                    {date_listened === null
+                                        ? <Typography>I haven&#39;t listened to this one yet</Typography>
+                                        : <>
+                                            <Typography>I listened in: <b>{date_listened.getFullYear()}</b></Typography>
+                                            <Typography>Rating: <b>{a.rating}/2</b></Typography>
+                                            <Typography>Favorite song: <b>{a.favorite_song !== '' ? a.favorite_song : 'N/A'}</b></Typography>
+                                        </>
+                                    }
+                                </Stack>
+                            </Stack>
                         </AccordionDetails>
                     </Accordion>
-                )}
+                })}
                 <br/>
                 {sortedAlbums.length > _mobileDisplayNum &&
                     <Button variant='outlined' onClick={() => setMobileDisplayNum((p) => p + 10)}>Display More Albums</Button>
