@@ -88,7 +88,10 @@ export default function DB( {albums} : { albums: Album[] }) {
         : [];
 
     return <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-        {typeof window !== 'undefined' && window.innerWidth > 1200 ?
+        {typeof window === 'undefined' &&
+            <Typography align='center' variant='h3'>Albums Database</Typography>
+        }
+        {typeof window !== 'undefined' && window.innerWidth > 1200 &&
             <Stack direction="column" alignItems='center' spacing={3}>
                 <Typography align='center' variant='h3'>Albums Database</Typography>
                 <Typography align='center'>This is the full database of albums I&#39;ve reviewed or plan to review in the future. Take a look!</Typography>
@@ -212,7 +215,9 @@ export default function DB( {albums} : { albums: Album[] }) {
                 </Dialog>
                 <br/>
             </Stack>
-        : <Stack direction="column" alignItems='center'>
+        }
+        {typeof window !== 'undefined' && window.innerWidth <= 1200 &&
+            <Stack direction="column" alignItems='center'>
                 <Typography align='center' variant='h3' maxWidth='90%'>Albums Database</Typography>
                 <br/>
                 <TextField
