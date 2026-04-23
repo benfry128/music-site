@@ -27,7 +27,7 @@ provider:
       - subnet-0de606814581f9497
       - subnet-0ee720bf096c9cd2c
       - subnet-0a4a7bda22ffc77fa
-  runtime: python3.13
+  runtime: python3.11
 
 functions:
   api:
