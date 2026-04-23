@@ -39,7 +39,6 @@ functions:
       - http:
           path: /{proxy+}
           method: ANY
-    environment: ${file(env.json)}
 
 plugins:
   - serverless-wsgi
