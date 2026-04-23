@@ -25,14 +25,5 @@ jobs:
     - name: Enter dir and deploy
       uses: serverless/github-action@v3.2
       with:
-        args: -c "cd ./backend && serverless deploy"
+        args: -c "cd ./backend && serverless plugin install --name serverless-wsgi && serverless plugin install --name serverless-python-requirements && serverless plugin install --name serverless-domain-manager && serverless deploy"
         entrypoint: /bin/sh
-    - name: Doctor
-      uses: serverless/github-action@v3.2
-      with:
-        args: -c "cd ./backend && serverless doctor"
-        entrypoint: /bin/sh
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        MYSQL_PWD: ${{ secrets.MYSQL_PWD }}
