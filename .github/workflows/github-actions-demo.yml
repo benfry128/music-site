@@ -21,6 +21,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+    - uses: actions/setup-python@v6
+      with:
+        python-version: '3.11'
     - run: npm ci
     - name: Enter dir and deploy
       uses: serverless/github-action@v3.2
