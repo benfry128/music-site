@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    environment: Production
     name: deploy
     runs-on: ubuntu-latest
     strategy:
