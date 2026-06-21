@@ -25,8 +25,7 @@ jobs:
       with:
         python-version: '3.13'
     - run: npm ci
+    - name: install serverless
+      run: npm install -g serverless@3.17.0
     - name: Enter dir and deploy
-      uses: serverless/github-action@v3.2
-      with:
-        args: -c "cd ./backend && serverless deploy"
-        entrypoint: /bin/sh
+      run: cd ./backend && serverless deploy
