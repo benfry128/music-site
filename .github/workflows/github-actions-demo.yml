@@ -23,10 +23,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - uses: actions/setup-python@v6
       with:
-        python-version: '3.11'
+        python-version: '3.13'
     - run: npm ci
     - name: Enter dir and deploy
-      uses: serverless/github-action@v3.2
+      uses: serverless/github-action@v4.0
       with:
         args: -c "cd ./backend && serverless deploy"
         entrypoint: /bin/sh
