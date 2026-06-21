@@ -25,9 +25,13 @@ jobs:
       with:
         python-version: '3.13'
     - run: npm ci
+    - name: setup aws cli
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
     - name: install serverless
       run: npm install -g serverless@3.17.0
-    - name: serverless auth
-      run: serverless config credentials --provider aws --key ${{secrets.AWS_ACCESS_KEY_ID}} --secret ${{secrets.AWS_SECRET_ACCESS_KEY}}
     - name: Enter dir and deploy
       run: serverless deploy
