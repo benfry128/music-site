@@ -27,7 +27,7 @@ jobs:
         python-version: '3.13'
     - run: npm ci
     - name: install serverless
-      run: npm install -g serverless@3.17.0
+      run: npm install -g serverless
     - name: Enter dir and deploy
       run: serverless deploy
       env:
