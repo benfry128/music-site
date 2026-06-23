@@ -28,6 +28,8 @@ jobs:
     - run: npm ci
     - name: install serverless
       run: npm install -g serverless
+    - name: install requirements
+      run: pip install -r requirements.txt
     - name: Enter dir and deploy
       run: serverless deploy
       env:
