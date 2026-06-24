@@ -31,6 +31,6 @@ jobs:
     - name: install requirements
       run: pip install -r requirements.txt
     - name: Enter dir and deploy
-      run: serverless deploy
+      run: serverless deploy --param="mysql_pwd=${{ secrets.MYSQL_PWD }}"
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
