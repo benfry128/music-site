@@ -40,6 +40,7 @@ def close_db_connections(response):
     return response
 
 
+
 @bp.route('/', methods=['GET'])
 def get_all_albums():
     g.cursor.execute('SELECT * FROM albums;')
