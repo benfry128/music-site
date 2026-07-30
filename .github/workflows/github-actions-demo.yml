@@ -13,11 +13,9 @@ jobs:
     outputs:
       backend_changed: ${{ steps.backend_check.outputs.changed }}
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Get previous commit
-        run: |
-          git fetch --depth=2 origin main
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
 
       - name: Check for backend changes
         id: backend_check
