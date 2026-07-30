@@ -6,7 +6,30 @@ on:
       - main
 
 jobs:
+  detect-changes:
+    environment: Production
+    name: detect-changes
+    runs-on: ubuntu-latest
+    outputs:
+      backend_changed: ${{ steps.backend_check.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check for backend changes
+        id: backend_check
+        run: |
+          git diff head~1 head -- backend
+          if git diff --quiet head~1 head -- backend/; then
+            echo "changed =false" >> $GITHUP_OUTPUT
+            echo "Backend did not change"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Backend did change"
+          fi
+
   deploy:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend-changed == 'true'
     environment: Production
     name: deploy
     runs-on: ubuntu-latest
