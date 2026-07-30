@@ -20,9 +20,7 @@ jobs:
       - name: Check for backend changes
         id: backend_check
         run: |
-          git checkout main
-          git diff head~1 head -- backend
-          if git diff --quiet head~1 head -- backend/; then
+          if git diff --quiet HEAD~1 HEAD -- backend/; then
             echo "changed =false" >> $GITHUP_OUTPUT
             echo "Backend did not change"
           else
