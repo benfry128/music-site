@@ -17,6 +17,7 @@ def load_db():
     # )
     # g.cursor = g.db.cursor()
 
+
 @bp.route('/<int:track_id>', methods=['GET'])
 def get_by_id(track_id: int):
     # g.cursor.execute('SELECT * FROM tracks WHERE id = %s', [track_id])
