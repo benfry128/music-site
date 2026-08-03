@@ -15,7 +15,6 @@ import {SvgIcon} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 
 import { orange } from "@mui/material/colors";
-import styles from './Layout.module.css';
 
 const darkTheme = createTheme({
   palette: {
