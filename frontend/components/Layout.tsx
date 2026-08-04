@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import AppBar from "@mui/material/AppBar";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
@@ -41,52 +42,54 @@ const links = [
 function Layout({children}: {children: React.ReactNode}) {
 	const [_drawerOpen, setDrawerOpen] = useState(false);
 
-	return <ThemeProvider theme={darkTheme}>
-		<LocalizationProvider dateAdapter={AdapterDayjs}>
-			<CssBaseline/>
-			<AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-				<Toolbar>
-					<Button href='./'>Home</Button>
-					<Button href='./albums'>Album Reviews</Button>
-					<Button href='./db'>Database</Button>
-				</Toolbar>
-			</AppBar>
-			<main>{children}</main>
-			{_drawerOpen || 
-				<Fab 
-					size='small' 
-					color='primary' 
-					sx={{
-						position: 'fixed',
-						bottom: 16,
-						right: 16
-					}}
-					onClick={() => {
-						setDrawerOpen(true);
-					}}
-				>
-					<SvgIcon><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></SvgIcon>
-				</Fab>
-			}
-			<Drawer
-				open={_drawerOpen}
-				onClose={() => {
-					setDrawerOpen(false);
-				}}
-				anchor='right'
-			>
-				{links.map((link, index) => 
-					<IconButton
-                        key={index}
-                        href={link.href}
-                        target='_blank'
+	return <AppRouterCacheProvider>
+		<ThemeProvider theme={darkTheme}>
+			<LocalizationProvider dateAdapter={AdapterDayjs}>
+				<CssBaseline/>
+				<AppBar position='static' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+					<Toolbar>
+						<Button href='./'>Home</Button>
+						<Button href='./albums'>Album Reviews</Button>
+						<Button href='./db'>Database</Button>
+					</Toolbar>
+				</AppBar>
+				<main>{children}</main>
+				{_drawerOpen ||
+					<Fab
+						size='small'
+						color='primary'
+						sx={{
+							position: 'fixed',
+							bottom: 16,
+							right: 16
+						}}
+						onClick={() => {
+							setDrawerOpen(true);
+						}}
 					>
-					{link.child}
-					</IconButton>
-				)}
-			</Drawer>
-		</LocalizationProvider>
-	</ThemeProvider>;
+						<SvgIcon><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></SvgIcon>
+					</Fab>
+				}
+				<Drawer
+					open={_drawerOpen}
+					onClose={() => {
+						setDrawerOpen(false);
+					}}
+					anchor='right'
+				>
+					{links.map((link, index) =>
+						<IconButton
+							key={index}
+							href={link.href}
+							target='_blank'
+						>
+							{link.child}
+						</IconButton>
+					)}
+				</Drawer>
+			</LocalizationProvider>
+		</ThemeProvider>
+	</AppRouterCacheProvider>;
 }
     
 export default Layout;
