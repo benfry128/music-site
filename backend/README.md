@@ -110,3 +110,5 @@ serverless wsgi serve
 ```
 
 For additional local development capabilities of `serverless-wsgi` plugin, please refer to corresponding [GitHub repository](https://github.com/logandk/serverless-wsgi).
+
+NAH BRUH JUST RUN flask --app app run --debug
