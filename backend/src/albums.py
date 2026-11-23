@@ -25,10 +25,10 @@ def create_album_dao(album: list) -> Album:
 @bp.before_request
 def load_db():
     g.db = mysql.connector.connect(
-        host='albums.c4hk40ksa2ki.us-east-1.rds.amazonaws.com',
-        user='admin',
+        host='localhost',
+        user='root',
         password=MYSQL_PWD,
-        database='albums'
+        database='benfrymusic'
     )
     g.cursor = g.db.cursor()
 
